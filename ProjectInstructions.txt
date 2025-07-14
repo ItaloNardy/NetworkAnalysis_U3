@@ -1,0 +1,113 @@
+Unidade 2 - Atividade prática com Streamlit
+
+Desenvolva uma aplicação interativa em Streamlit que analise e visualize redes complexas com base em um dataset fornecido ou escolhido pelo aluno.
+
+A aplicação deve utilizar a biblioteca Pyvis para visualização interativa da rede e apresentar análises estatísticas e estruturais dos dados.
+
+Você deverá criar uma aplicação em Streamlit e disponibilizá-la online (ex: via Streamlit Cloud), enviando o link da aplicação e o link do repositório GitHub com o código-fonte.
+
+Utilize os seguintes exemplos como modelo base:
+
+    Repositório de exemplo:https://github.com/napoles-uach/streamlit_network
+    Notebook com visualização Pyvis: https://github.com/napoles-uach/streamlit_network/blob/main/pyvis_sample.ipynb
+
+
+Requisitos:
+
+A aplicação deve conter as seguintes visualizações e análises:
+
+1. Visualização da Rede
+
+    Use a biblioteca Pyvis para gerar e exibir um grafo interativo com layout ajustável.
+    Permita selecionar diferentes subconjuntos do grafo (por ex: maiores componentes conectados, subgrafos com alto grau, etc.).
+
+
+2. Métricas Estruturais
+
+Exiba na aplicação os seguintes cálculos e explique brevemente seus significados:
+
+    Esparsidade / Densidade da rede
+    Assortatividade da rede
+    Coeficiente de clustering global
+    Componentes Fortemente Conectados (Strongly Connected Components)
+    ⚠️ Essa métrica se aplica apenas à grafos dirigidos
+    Componentes Fracamente Conectados (Weakly Connected Components)
+
+
+3. Distribuições de Grau
+
+    Gere e exiba um histograma da distribuição de grau dos nós (grau total ou separado por in-degree e out-degree, se for dirigido).
+
+4. Centralidade dos Nós
+
+Implemente e compare visualmente os nós mais importantes segundo as seguintes métricas:
+
+    Eigenvector centrality
+    Degree centrality
+    Closeness centrality
+    Betweenness centrality
+
+
+    A aplicação deve permitir visualizar rankings ou destacar os top-k nós por cada métrica.
+
+Entrega
+
+    ✅ Link para a aplicação hospedada (Streamlit Cloud ou similar)
+
+    ✅ Link para o repositório GitHub contendo:
+
+    Código-fonte (script .py ou notebook .ipynb)
+    Arquivo requirements.txt com as dependências do projeto
+    Breve README.md com instruções de uso
+
+
+
+U3 - PROJETO:
+
+1- [5 pontos]  A partir de um dataset de sua escolha, elabore um ﬂuxo de análise exploratória em um Notebook do Colab e disponibilize no seu github, em particular:
+● Explique o que é o seu dataset.
+● Explique o que são os nós e as aretas.
+● Explique se foi necessário filtrar os nós, gerar um subgrafo,
+
+- A análise deverá conter e explicar no contexto do seu dataset os principais conceitos de análise de redes vistos até o momento:
+● Matriz de adjacência.
+● Diâmetro e periferia da rede, note que é preciso que o grafo seja conectado, caso não seja conectado, gere um subgrafo conectado da rede.
+
+- Mostre e explique os valores de:
+● Esparsidade/Densidade da Rede.
+● Assortatividade geral da rede.
+
+- Exiba as visualizações de:
+● Histograma de distribuição empírica de grau.
+
+- Mostre e explique os valores de:
+● Coeﬁciente de clustering local para nós escolhidos.
+● Coeﬁciente de clustering global.
+● Componentes Conectados Fortemente, note que é preciso ter um grafo dirigido para gerar essa métrica.
+● Componentes Conectados Fracamente.
+
+- Implemente uma visualização para exibir os nós mais importantes, usando e comparando as medidas:
+● Eigenvector centrality,
+● Degree centrality.
+● Closeness centrality.
+● Betweenness centrality.
+Confira para visualizações dos dados: https://datasciencedojo.com/blog/network-theory-game-of-thrones/
+
+- Implemente o pacote de Detecção de comunidades/partições:
+https://python-louvain.readthedocs.io/en/latest/index.html
+
+
+3- [2,5 pontos] Implemente a analíse em uma ferramenta de visualização, explorando pelo menos dois itens abaixo:
+● Pyvis em um diretório do Github, por exemplo em http://terrematte.github.io/network_analysis/docs/
+● Streamlit com deploy no Community Cloud em https://streamlit.io/cloud
+● Disponibilize no seu Github a visualização da sua rede com Gephi usando SigmaJS Exporter. Inclua as métricas geradas e a análise de comunidade do Gephi, usando os tutoriais abaixo, por exemplo:
+https://www.youtube.com/watch?v=ok4iFOe9niU
+https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
+
+
+4- [2,5 pontos] Realize uma apresentação do seu pipeline para os colegas no dia.
+● A apresentação deverá conter:
+- Uma explicação do dataset;
+- Os objetivos da análise;
+- Apresentação das visualizações utilizadas (nxviz, seaborn, matplotlib, Pyvis, SigmaJS );
+- Conclusões;
