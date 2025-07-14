@@ -62,6 +62,16 @@ Entrega
 
 
 
+
+
+
+
+
+
+
+
+
+
 U3 - PROJETO:
 
 1- [5 pontos]  A partir de um dataset de sua escolha, elabore um ﬂuxo de análise exploratória em um Notebook do Colab e disponibilize no seu github, em particular:
