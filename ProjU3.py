@@ -120,7 +120,7 @@ var options = {
   "interaction": {
     "hover": true,
     "tooltipDelay": 50,
-    "hideEdgesOnDrag": true,
+    "hideEdgesOnDrag": false,
     "zoomView": true,
     "dragNodes": true,
     "dragView": true,
