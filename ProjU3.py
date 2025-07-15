@@ -92,15 +92,16 @@ var options = {
     },
     "shape": "dot"
   },
-"edges": {
-  "color": {
-    "inherit": true
+  "edges": {
+    "color": {
+      "inherit": true
+    },
+    "smooth": {
+      "enabled": true,
+      "type": "dynamic",
+      "roundness": 0.5
+    }
   },
-  "smooth": {
-    "enabled": true,
-    "type": "dynamic",
-    "roundness": 0.5
-  }
   "physics": {
     "enabled": true,
     "solver": "repulsion",
