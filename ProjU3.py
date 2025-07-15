@@ -26,11 +26,11 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.stop()
 
 # Toggle to limit nodes
-limit_nodes = st.checkbox("Limit graph to 30 rows (for faster rendering)", value=True)
+limit_nodes = st.checkbox("Limit graph to 100 rows (for faster rendering)", value=True)
 
 # Limit dataset if checkbox is checked
 if limit_nodes:
-    df = df.head(30)
+    df = df.head(100)
 
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
