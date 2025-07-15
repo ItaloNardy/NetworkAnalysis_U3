@@ -1,3 +1,5 @@
+# GRAPH
+
 import streamlit as st
 import pandas as pd
 from pyvis.network import Network
@@ -183,3 +185,31 @@ components.html(html_content, height=900, scrolling=True)
 
 # Cleanup
 os.unlink(path)
+
+# METRICS
+
+st.subheader("Network Analysis Metrics")
+
+# Check if graph is connected; if not, get largest connected component
+if nx.is_connected(G):
+    G_connected = G
+else:
+    # Get the largest connected component as a subgraph
+    largest_cc = max(nx.connected_components(G), key=len)
+    G_connected = G.subgraph(largest_cc).copy()
+    st.warning("Original graph was not connected. Using largest connected component for diameter and periphery calculations.")
+
+# Adjacency matrix as a DataFrame
+adj_matrix = nx.adjacency_matrix(G_connected)
+adj_df = pd.DataFrame(adj_matrix.todense(), index=G_connected.nodes(), columns=G_connected.nodes())
+st.markdown("### Adjacency Matrix")
+st.dataframe(adj_df.style.format("{:.0f}"))
+
+# Diameter
+diameter = nx.diameter(G_connected)
+st.markdown(f"### Diameter of the connected network: **{diameter}**")
+
+# Periphery nodes
+periphery_nodes = list(nx.periphery(G_connected))
+st.markdown(f"### Periphery Nodes ({len(periphery_nodes)} nodes):")
+st.write(periphery_nodes)

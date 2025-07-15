@@ -72,52 +72,82 @@ Entrega
 
 
 
-U3 - PROJETO:
+U3 - PROJECT:
+1 - [5 points]
 
-1- [5 pontos]  A partir de um dataset de sua escolha, elabore um ﬂuxo de análise exploratória em um Notebook do Colab e disponibilize no seu github, em particular:
-● Explique o que é o seu dataset.
-● Explique o que são os nós e as aretas.
-● Explique se foi necessário filtrar os nós, gerar um subgrafo,
+Using a dataset of your choice, develop an exploratory analysis workflow in a Colab Notebook and make it available on your GitHub. In particular:
 
-- A análise deverá conter e explicar no contexto do seu dataset os principais conceitos de análise de redes vistos até o momento:
-● Matriz de adjacência.
-● Diâmetro e periferia da rede, note que é preciso que o grafo seja conectado, caso não seja conectado, gere um subgrafo conectado da rede.
+    Explain what your dataset is.
 
-- Mostre e explique os valores de:
-● Esparsidade/Densidade da Rede.
-● Assortatividade geral da rede.
+    Explain what the nodes and edges are.
 
-- Exiba as visualizações de:
-● Histograma de distribuição empírica de grau.
+    Explain if it was necessary to filter nodes or generate a subgraph.
 
-- Mostre e explique os valores de:
-● Coeﬁciente de clustering local para nós escolhidos.
-● Coeﬁciente de clustering global.
-● Componentes Conectados Fortemente, note que é preciso ter um grafo dirigido para gerar essa métrica.
-● Componentes Conectados Fracamente.
+The analysis must include and explain, in the context of your dataset, the main network analysis concepts covered so far:
 
-- Implemente uma visualização para exibir os nós mais importantes, usando e comparando as medidas:
-● Eigenvector centrality,
-● Degree centrality.
-● Closeness centrality.
-● Betweenness centrality.
-Confira para visualizações dos dados: https://datasciencedojo.com/blog/network-theory-game-of-thrones/
+    Adjacency matrix
 
-- Implemente o pacote de Detecção de comunidades/partições:
+    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).
+
+Show and explain the values of:
+
+    Sparsity/Density of the network
+
+    General assortativity of the network
+
+Display visualizations of:
+
+    Empirical degree distribution histogram
+
+Show and explain the values of:
+
+    Local clustering coefficient for selected nodes
+
+    Global clustering coefficient
+
+    Strongly Connected Components (note: the graph must be directed for this metric)
+
+    Weakly Connected Components
+
+Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
+
+    Eigenvector centrality
+
+    Degree centrality
+
+    Closeness centrality
+
+    Betweenness centrality
+
+Check this reference for data visualizations:
+https://datasciencedojo.com/blog/network-theory-game-of-thrones/
+
+Implement community/partition detection using the following package:
 https://python-louvain.readthedocs.io/en/latest/index.html
+3 - [2.5 points]
 
+Implement the analysis in a visualization tool, exploring at least two of the following:
 
-3- [2,5 pontos] Implemente a analíse em uma ferramenta de visualização, explorando pelo menos dois itens abaixo:
-● Pyvis em um diretório do Github, por exemplo em http://terrematte.github.io/network_analysis/docs/
-● Streamlit com deploy no Community Cloud em https://streamlit.io/cloud
-● Disponibilize no seu Github a visualização da sua rede com Gephi usando SigmaJS Exporter. Inclua as métricas geradas e a análise de comunidade do Gephi, usando os tutoriais abaixo, por exemplo:
-https://www.youtube.com/watch?v=ok4iFOe9niU
-https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
+    Pyvis in a GitHub directory, e.g., http://terrematte.github.io/network_analysis/docs/
 
+    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud
 
-4- [2,5 pontos] Realize uma apresentação do seu pipeline para os colegas no dia.
-● A apresentação deverá conter:
-- Uma explicação do dataset;
-- Os objetivos da análise;
-- Apresentação das visualizações utilizadas (nxviz, seaborn, matplotlib, Pyvis, SigmaJS );
-- Conclusões;
+    Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:
+
+        https://www.youtube.com/watch?v=ok4iFOe9niU
+
+        https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
+
+4 - [2.5 points]
+
+Give a presentation of your pipeline to your classmates on the designated day.
+
+The presentation should include:
+
+    An explanation of the dataset
+
+    The goals of the analysis
+
+    Presentation of the visualizations used (nxviz, seaborn, matplotlib, Pyvis, SigmaJS)
+
+    Conclusions
