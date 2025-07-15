@@ -75,7 +75,7 @@ var options = {
       "centralGravity": 0.005
     },
     "timestep": 0.35,
-    "minVelocity": 0.75,
+    "minVelocity": 0.99,
     "stabilization": {
       "enabled": true,
       "iterations": 200,
