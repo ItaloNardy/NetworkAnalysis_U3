@@ -32,6 +32,7 @@ if limit_nodes:
 
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
+net.repulsion()
 
 # Add nodes and edges
 for _, row in df.iterrows():
