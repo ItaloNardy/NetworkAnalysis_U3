@@ -65,40 +65,40 @@ for _, row in df.iterrows():
 
 # Base Pyvis options
 net.set_options("""
-var options = {
-  nodes: {
-    font: {size:22, face:'arial'},
-    shape: 'dot',
-    scaling: {min:10, max:45}
+{
+  "nodes": {
+    "font": {"size": 22, "face": "arial"},
+    "shape": "dot",
+    "scaling": {"min": 10, "max": 45}
   },
-  edges: {
-    color: {inherit: true},
-    smooth: false
+  "edges": {
+    "color": {"inherit": true},
+    "smooth": false
   },
-  interaction: {
-    hover: true,
-    tooltipDelay: 50,
-    dragNodes: true,
-    dragView: true,
-    zoomView: true,
-    selectConnectedEdges: true,
-    highlightNearest: {
-      enabled: true,
-      degree: 1,
-      hover: false
+  "interaction": {
+    "hover": true,
+    "tooltipDelay": 50,
+    "dragNodes": true,
+    "dragView": true,
+    "zoomView": true,
+    "selectConnectedEdges": true,
+    "highlightNearest": {
+      "enabled": true,
+      "degree": 1,
+      "hover": false
     }
   },
-  physics: {
-    solver: 'repulsion',
-    repulsion: {
-      centralGravity: 0.15,
-      springLength: 300,
-      springConstant: 0.01,
-      nodeDistance: 220,
-      damping: 0.15
+  "physics": {
+    "solver": "repulsion",
+    "repulsion": {
+      "centralGravity": 0.15,
+      "springLength": 300,
+      "springConstant": 0.01,
+      "nodeDistance": 220,
+      "damping": 0.15
     },
-    stabilization: {
-      iterations: 250
+    "stabilization": {
+      "iterations": 250
     }
   }
 }
