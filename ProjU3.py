@@ -101,7 +101,6 @@ var options = {
     "type": "dynamic",
     "roundness": 0.5
   }
-}
   "physics": {
     "enabled": true,
     "solver": "repulsion",
