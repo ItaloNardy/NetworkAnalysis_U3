@@ -13,7 +13,7 @@ st.title("Marvel Character Network (from GitHub CSV)")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("got-edges.csv")
+    df = pd.read_csv("marvel-unimodal-edges.csv")
     return df
 
 # Load and preview data
