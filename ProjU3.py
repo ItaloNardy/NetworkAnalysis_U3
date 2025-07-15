@@ -47,32 +47,7 @@ for node in marvel_net.nodes:
     node["value"] = len(neighbor_map[node["id"]])
 
 # Enhanced settings for large networks
-{
-  "physics": {
-    "forceAtlas2Based": {
-      "gravitationalConstant": -40,
-      "springLength": 80,
-      "springConstant": 0.1
-    },
-    "minVelocity": 0.75,
-    "solver": "forceAtlas2Based"
-  }
-}
-custom_options = """
-var options = {
-  "physics": {
-    "forceAtlas2Based": {
-      "gravitationalConstant": -40,
-      "springLength": 80,
-      "springConstant": 0.1
-    },
-    "minVelocity": 0.75,
-    "solver": "forceAtlas2Based"
-  }
-}
-"""
-marvel_net.set_options(custom_options)
-#marvel_net.show_buttons(filter_=['physics'])
+marvel_net.show_buttons(filter_=['physics'])
 
 # Save to temp file and render in Streamlit
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
