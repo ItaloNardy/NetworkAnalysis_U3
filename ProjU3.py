@@ -32,7 +32,6 @@ if limit_nodes:
 
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
-marvel_net.barnes_hut()  # Initializes physics engine (but will be overridden)
 
 # Add nodes and edges
 for _, row in df.iterrows():
@@ -48,51 +47,27 @@ for node in marvel_net.nodes:
     node["value"] = len(neighbor_map[node["id"]])
 
 # Enhanced settings for large networks
+{
+  "physics": {
+    "forceAtlas2Based": {
+      "gravitationalConstant": -40,
+      "springLength": 80,
+      "springConstant": 0.1
+    },
+    "minVelocity": 0.75,
+    "solver": "forceAtlas2Based"
+  }
+}
 custom_options = """
 var options = {
-  "nodes": {
-    "font": {
-      "size": 20,
-      "face": "arial",
-      "align": "center"
-    },
-    "scaling": {
-      "min": 5,
-      "max": 30
-    }
-  },
-  "edges": {
-    "color": {
-      "inherit": true
-    },
-    "smooth": false
-  },
   "physics": {
-    "enabled": true,
-    "solver": "forceAtlas2Based",
     "forceAtlas2Based": {
-      "gravitationalConstant": -50,
-      "springLength": 100,
-      "springConstant": 0.08,
-      "centralGravity": 0.005
+      "gravitationalConstant": -40,
+      "springLength": 80,
+      "springConstant": 0.1
     },
-    "timestep": 0.35,
     "minVelocity": 0.75,
-    "stabilization": {
-      "enabled": true,
-      "iterations": 150,
-      "updateInterval": 30,
-      "onlyDynamicEdges": false,
-      "fit": true
-    }
-  },
-  "interaction": {
-    "hover": true,
-    "tooltipDelay": 50,
-    "hideEdgesOnDrag": true,
-    "zoomView": true,
-    "dragNodes": true,
-    "dragView": true
+    "solver": "forceAtlas2Based"
   }
 }
 """
