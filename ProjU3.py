@@ -51,7 +51,7 @@ marvel_net.show_buttons(filter_=['physics'])
 # Save and display graph
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
-    marvel_net.show(path)
+    marvel_net.save_graph(path)
 
 with open(path, 'r', encoding='utf-8') as f:
     html_content = f.read()
