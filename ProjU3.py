@@ -32,7 +32,6 @@ if limit_nodes:
 
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
-net.repulsion()
 
 # Add nodes and edges
 for _, row in df.iterrows():
@@ -48,12 +47,88 @@ for node in marvel_net.nodes:
     node["value"] = len(neighbor_map[node["id"]])
 
 # Enhanced settings for large networks
+custom_options = """
+var options = {
+  "nodes": {
+    "font": {
+      "size": 20,
+      "face": "arial",
+      "align": "center"
+    },
+    "scaling": {
+      "min": 5,
+      "max": 30
+    }
+  },
+  "edges": {
+    "color": {
+      "inherit": true
+    },
+    "smooth": false
+  },
+  "physics": {
+    "forceAtlas2Based": {
+      "gravitationalConstant": -50,
+      "springLength": 100,
+      "springConstant": 0.08,
+      "centralGravity": 0.005
+    },
+    "minVelocity": 0.75,
+    "solver": "forceAtlas2Based",
+    "timestep": 0.35,
+    "stabilization": {
+      "iterations": 100
+    }
+  },
+  "interaction": {
+    "hover": true,
+    "tooltipDelay": 50,
+    "hideEdgesOnDrag": true,
+    "zoomView": true
+  }
+}
+"""
+marvel_net.set_options(custom_options)
 marvel_net.show_buttons(filter_=['physics'])
 
 # Save to temp file and render in Streamlit
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
     marvel_net.save_graph(path)
+
+# Inject custom JS to disable physics after stabilization and re-enable on drag
+with open(path, 'r', encoding='utf-8') as f:
+    html_content = f.read()
+
+# JavaScript to stop physics after layout and re-enable during drag
+custom_js = """
+<script type="text/javascript">
+  const originalInit = function() {
+    network.once('stabilizationIterationsDone', function () {
+      network.setOptions({ physics: false });
+    });
+    network.on("dragStart", function () {
+      network.setOptions({ physics: true });
+    });
+    network.on("dragEnd", function () {
+      setTimeout(() => network.setOptions({ physics: false }), 200);
+    });
+  };
+  if (typeof network !== "undefined") {
+    originalInit();
+  } else {
+    setTimeout(originalInit, 1000);
+  }
+</script>
+"""
+
+# Inject the script before </body> or </html>
+if "</body>" in html_content:
+    html_content = html_content.replace("</body>", custom_js + "\n</body>")
+elif "</html>" in html_content:
+    html_content = html_content.replace("</html>", custom_js + "\n</html>")
+else:
+    html_content += custom_js
 
 # Read and embed HTML
 with open(path, 'r', encoding='utf-8') as f:
