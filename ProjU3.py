@@ -35,8 +35,8 @@ if limit_nodes:
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
 marvel_net.barnes_hut()
-marvel_net.set_options(options_json)
-{
+custom_options = """
+var options = {
   "nodes": {
     "font": {
       "size": 20,
@@ -75,6 +75,8 @@ marvel_net.set_options(options_json)
     "zoomView": true
   }
 }
+"""
+marvel_net.set_options(custom_options)
 
 # Add nodes and edges from the DataFrame
 for _, row in df.iterrows():
