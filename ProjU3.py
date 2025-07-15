@@ -6,12 +6,6 @@ from pyvis.network import Network
 import tempfile
 import os
 import streamlit.components.v1 as components
-import importlib.util
-import sys
-import subprocess
-
-if importlib.util.find_spec("scipy") is None:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "scipy"])
 
 # Try to import Louvain community detection
 try:
