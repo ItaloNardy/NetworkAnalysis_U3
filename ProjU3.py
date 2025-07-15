@@ -46,49 +46,7 @@ for node in marvel_net.nodes:
     node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
     node["value"] = len(neighbor_map[node["id"]])
 
-# Enhanced settings for large networks
-custom_options = """
-var options = {
-  "nodes": {
-    "font": {
-      "size": 20,
-      "face": "arial",
-      "align": "center"
-    },
-    "scaling": {
-      "min": 5,
-      "max": 30
-    }
-  },
-  "edges": {
-    "color": {
-      "inherit": true
-    },
-    "smooth": false
-  },
-  "physics": {
-    "forceAtlas2Based": {
-      "gravitationalConstant": -50,
-      "springLength": 100,
-      "springConstant": 0.08,
-      "centralGravity": 0.005
-    },
-    "minVelocity": 0.75,
-    "solver": "forceAtlas2Based",
-    "timestep": 0.35,
-    "stabilization": {
-      "iterations": 100
-    }
-  },
-  "interaction": {
-    "hover": true,
-    "tooltipDelay": 50,
-    "hideEdgesOnDrag": true,
-    "zoomView": true
-  }
-}
-"""
-marvel_net.set_options(custom_options)
+
 
 # Save to temp file and render in Streamlit
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
