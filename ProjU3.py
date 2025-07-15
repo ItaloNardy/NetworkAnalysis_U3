@@ -5,97 +5,78 @@ import tempfile
 import os
 import streamlit.components.v1 as components
 
-# Try to import Louvain community detection
+# Install Louvain if needed
 try:
     import community as community_louvain
 except ImportError:
-    import subprocess
-    import sys
+    import subprocess, sys
     subprocess.check_call([sys.executable, "-m", "pip", "install", "python-louvain"])
     import community as community_louvain
 
 import networkx as nx
 
-# Streamlit setup
+# Setup Streamlit
 st.set_page_config(page_title="Marvel Network", layout="wide")
-st.title("Marvel Character Network with Clustering & Interactions")
+st.title("Marvel Network with Clustering and Interactive Filtering")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("marvel-unimodal-edges.csv")
-    return df
+    return pd.read_csv("marvel-unimodal-edges.csv")
 
-# Load and preview data
 df = load_data()
 
-# Validate required columns
 if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.error("CSV must contain 'Source', 'Target', and 'Weight' columns.")
     st.stop()
 
-# Toggle to limit graph size
-limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=True)
-if limit_nodes:
+# Option to limit size
+limit = st.checkbox("Limit graph to first 1000 edges", value=True)
+if limit:
     df = df.head(1000)
 
-# Build NetworkX graph
-G = nx.from_pandas_edgelist(df, source='Source', target='Target', edge_attr='Weight')
+# NetworkX graph + Louvain
+G = nx.from_pandas_edgelist(df, 'Source', 'Target', edge_attr='Weight')
 partition = community_louvain.best_partition(G)
-degree_dict = dict(G.degree())
-max_degree = max(degree_dict.values()) if degree_dict else 1
+degree = dict(G.degree())
+max_deg = max(degree.values()) if degree else 1
 
-# Color palette
 palette = [
     "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231",
     "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe",
     "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000"
 ]
 
-# Create Pyvis network
-marvel_net = Network(height='850px', width='100%', notebook=False, cdn_resources='remote')
+# Pyvis network
+net = Network(height="850px", width="100%", notebook=False, cdn_resources="remote")
 
-# Add nodes with community color and hub size
+# Add nodes with color and size
 for node in G.nodes():
-    community_id = partition.get(node, 0)
-    degree = degree_dict.get(node, 1)
-    size = 15 + (degree / max_degree) * 35
-    color = palette[community_id % len(palette)]
-
-    marvel_net.add_node(
+    c = partition.get(node, 0)
+    d = degree.get(node, 1)
+    net.add_node(
         node,
         label=node,
-        title=f"Community: {community_id}<br>Degree: {degree}",
-        color=color,
-        size=size,
+        color=palette[c % len(palette)],
+        size=15 + (d / max_deg) * 35,
+        title=f"Community: {c}<br>Degree: {d}",
         shape="dot",
-        font={"size": 22, "face": "arial", "multi": "md", "align": "center"}
+        font={"size": 22, "face": "arial", "align": "center"}
     )
 
 # Add edges
 for _, row in df.iterrows():
-    src, dst, w = row['Source'], row['Target'], row['Weight']
-    marvel_net.add_edge(src, dst, value=w)
+    net.add_edge(row["Source"], row["Target"], value=row["Weight"])
 
-# Enable interactive features for highlighting
-marvel_net.set_options("""
+# Custom options
+net.set_options("""
 var options = {
   "nodes": {
-    "font": {
-      "size": 22,
-      "face": "arial",
-      "multi": "md",
-      "align": "center"
-    },
-    "scaling": {
-      "min": 10,
-      "max": 45
-    },
+    "font": {"size": 22, "face": "arial"},
+    "scaling": {"min": 10, "max": 45},
     "shape": "dot"
   },
   "edges": {
-    "color": {
-      "inherit": true
-    },
+    "color": {"inherit": true},
     "smooth": false
   },
   "physics": {
@@ -108,74 +89,80 @@ var options = {
       "nodeDistance": 220,
       "damping": 0.15
     },
-    "stabilization": {
-      "enabled": true,
-      "iterations": 250,
-      "updateInterval": 25,
-      "onlyDynamicEdges": false,
-      "fit": true
-    },
-    "minVelocity": 0.75
+    "stabilization": {"enabled": true, "iterations": 250}
   },
   "interaction": {
     "hover": true,
     "tooltipDelay": 50,
-    "hideEdgesOnDrag": false,
-    "zoomView": true,
     "dragNodes": true,
     "dragView": true,
-    "selectConnectedEdges": true,
-    "multiselect": false,
-    "highlightNearest": {
-      "enabled": true,
-      "degree": 1,
-      "hover": false
-    }
+    "selectConnectedEdges": true
   }
 }
 """)
 
-# Save graph to temp file
+# Save to temporary file
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
-    marvel_net.save_graph(path)
+    net.save_graph(path)
 
-# Inject JS to control physics on drag
+# Inject JS for interactive dimming
 custom_js = """
 <script type="text/javascript">
-  function controlPhysics() {
-    network.once('stabilizationIterationsDone', function () {
-      network.setOptions({ physics: false });
-    });
-    network.on("dragStart", function () {
-      network.setOptions({ physics: true });
-    });
-    network.on("dragEnd", function () {
-      setTimeout(() => network.setOptions({ physics: false }), 300);
-    });
-  }
-  if (typeof network !== "undefined") {
+function highlightConnected() {
+  network.on("click", function (params) {
+    if (params.nodes.length === 0) {
+      network.selectNodes([]);
+      network.body.data.nodes.update(
+        network.body.data.nodes.get().map(n => ({ id: n.id, hidden: false }))
+      );
+      return;
+    }
+    const selectedNode = params.nodes[0];
+    const connectedNodes = network.getConnectedNodes(selectedNode);
+    connectedNodes.push(selectedNode);
+    const allNodes = network.body.data.nodes.get();
+    network.body.data.nodes.update(
+      allNodes.map(n => ({
+        id: n.id,
+        hidden: !connectedNodes.includes(n.id)
+      }))
+    );
+  });
+}
+
+function controlPhysics() {
+  network.once('stabilizationIterationsDone', () => network.setOptions({ physics: false }));
+  network.on("dragStart", () => network.setOptions({ physics: true }));
+  network.on("dragEnd", () => setTimeout(() => network.setOptions({ physics: false }), 300));
+}
+
+if (typeof network !== "undefined") {
+  highlightConnected();
+  controlPhysics();
+} else {
+  setTimeout(() => {
+    highlightConnected();
     controlPhysics();
-  } else {
-    setTimeout(controlPhysics, 1000);
-  }
+  }, 1000);
+}
 </script>
 """
 
 # Inject JS
 with open(path, 'r', encoding='utf-8') as f:
-    html_content = f.read()
+    html = f.read()
 
-if "</body>" in html_content:
-    html_content = html_content.replace("</body>", custom_js + "\n</body>")
-elif "</html>" in html_content:
-    html_content = html_content.replace("</html>", custom_js + "\n</html>")
+if "</body>" in html:
+    html = html.replace("</body>", custom_js + "\n</body>")
+elif "</html>" in html:
+    html = html.replace("</html>", custom_js + "\n</html>")
 else:
-    html_content += custom_js
+    html += custom_js
 
-# Show in Streamlit
+# Display in Streamlit
 st.subheader("Interactive Network Graph")
-components.html(html_content, height=900, scrolling=True)
+components.html(html, height=900, scrolling=True)
 
-# Cleanup
+# Clean up
 os.unlink(path)
