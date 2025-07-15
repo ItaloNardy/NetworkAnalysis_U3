@@ -80,8 +80,10 @@ var options = {
     "minVelocity": 0.75,
     "stabilization": {
       "enabled": true,
-      "iterations": 200,
-      "updateInterval": 25
+      "iterations": 150,
+      "updateInterval": 30,
+      "onlyDynamicEdges": false,
+      "fit": true
     }
   },
   "interaction": {
