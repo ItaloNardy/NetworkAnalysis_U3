@@ -29,7 +29,7 @@ if limit_nodes:
     df = df.head(1000)
 
 # Create Pyvis network
-marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
+marvel_net = Network(height='850px', width='100%', notebook=False, cdn_resources='remote')
 
 # Add nodes and edges
 for _, row in df.iterrows():
@@ -38,26 +38,28 @@ for _, row in df.iterrows():
     marvel_net.add_node(dst, label=dst, title=dst)
     marvel_net.add_edge(src, dst, value=w)
 
-# Add neighbor info to hover text and size nodes by number of connections
+# Add neighbor info to hover text and set node size by degree
 neighbor_map = marvel_net.get_adj_list()
 for node in marvel_net.nodes:
     degree = len(neighbor_map[node["id"]])
     node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
-    node["value"] = degree  # This also helps space out nodes visually
+    node["value"] = degree
 
-# Set visual + physics options with overlap avoidance
+# Set layout options with repulsion solver and optimized label spacing
 custom_options = """
 var options = {
   "nodes": {
     "font": {
-      "size": 20,
+      "size": 22,
       "face": "arial",
+      "multi": "md",
       "align": "center"
     },
     "scaling": {
       "min": 10,
       "max": 40
-    }
+    },
+    "shape": "dot"
   },
   "edges": {
     "color": {
@@ -67,22 +69,22 @@ var options = {
   },
   "physics": {
     "enabled": true,
-    "solver": "forceAtlas2Based",
-    "forceAtlas2Based": {
-      "gravitationalConstant": -80,
-      "springLength": 150,
-      "springConstant": 0.08,
-      "centralGravity": 0.005
+    "solver": "repulsion",
+    "repulsion": {
+      "centralGravity": 0.15,
+      "springLength": 300,
+      "springConstant": 0.01,
+      "nodeDistance": 220,
+      "damping": 0.15
     },
-    "timestep": 0.35,
-    "minVelocity": 0.99,
     "stabilization": {
       "enabled": true,
-      "iterations": 200,
-      "updateInterval": 30,
+      "iterations": 250,
+      "updateInterval": 25,
       "onlyDynamicEdges": false,
       "fit": true
-    }
+    },
+    "minVelocity": 0.75
   },
   "interaction": {
     "hover": true,
@@ -102,7 +104,7 @@ with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
     marvel_net.save_graph(path)
 
-# Inject JavaScript to stop physics after layout, re-enable on drag
+# Inject JS: disable physics after stabilization, re-enable on drag
 custom_js = """
 <script type="text/javascript">
   function controlPhysics() {
@@ -124,11 +126,10 @@ custom_js = """
 </script>
 """
 
-# Read, inject JS, and display in Streamlit
+# Inject JS into HTML
 with open(path, 'r', encoding='utf-8') as f:
     html_content = f.read()
 
-# Inject JS before closing </body> or </html>
 if "</body>" in html_content:
     html_content = html_content.replace("</body>", custom_js + "\n</body>")
 elif "</html>" in html_content:
@@ -136,9 +137,9 @@ elif "</html>" in html_content:
 else:
     html_content += custom_js
 
-# Show in Streamlit
+# Display in Streamlit
 st.subheader("Interactive Network Graph")
-components.html(html_content, height=850, scrolling=True)
+components.html(html_content, height=900, scrolling=True)
 
-# Clean up temp file
+# Cleanup
 os.unlink(path)
