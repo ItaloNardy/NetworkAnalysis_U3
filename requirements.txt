@@ -1,0 +1,6 @@
+streamlit
+pyvis
+pandas
+networkx
+matplotlib
+seaborn
