@@ -6,57 +6,58 @@ import os
 from pathlib import Path
 import streamlit.components.v1 as components
 
-# Set Streamlit page config
+# Streamlit setup
 st.set_page_config(page_title="Marvel Network", layout="wide")
+st.title("Marvel Character Network (from GitHub CSV)")
 
-# Title
-st.title("Marvel Character Network Visualization")
 
-# Upload CSV file
-uploaded_file = st.file_uploader("Upload Edge List CSV", type="csv")
+@st.cache_data
+def load_data():
+    df = pd.read_csv("got-edges.csv")
+    return df
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+# Load and preview data
+df = load_data()
 
-    # Validate required columns
-    if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
-        st.error("CSV must contain 'Source', 'Target', and 'Weight' columns.")
-    else:
-        # Create a Pyvis Network object
-        marvel_net = Network(height='800px', width='100%', heading='', notebook=False, cdn_resources='remote')
-        marvel_net.barnes_hut()
+# Validate columns
+if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
+    st.error("CSV must contain 'Source', 'Target', and 'Weight' columns.")
+    st.stop()
 
-        # Add edges and nodes
-        for _, row in df.iterrows():
-            src, dst, w = row['Source'], row['Target'], row['Weight']
-            marvel_net.add_node(src, label=src, title=src)
-            marvel_net.add_node(dst, label=dst, title=dst)
-            marvel_net.add_edge(src, dst, value=w)
+st.success("CSV loaded successfully from GitHub.")
+st.write("Preview of edge list:")
+st.dataframe(df.head())
 
-        # Build neighbor map
-        neighbor_map = marvel_net.get_adj_list()
+# Create Pyvis network
+marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
+marvel_net.barnes_hut()
 
-        # Enrich nodes with neighbor info
-        for node in marvel_net.nodes:
-            node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
-            node["value"] = len(neighbor_map[node["id"]])
+# Add nodes and edges
+for _, row in df.iterrows():
+    src, dst, w = row['Source'], row['Target'], row['Weight']
+    marvel_net.add_node(src, label=src, title=src)
+    marvel_net.add_node(dst, label=dst, title=dst)
+    marvel_net.add_edge(src, dst, value=w)
 
-        marvel_net.repulsion()
-        marvel_net.show_buttons(filter_=['physics'])
+# Add neighbor data
+neighbor_map = marvel_net.get_adj_list()
+for node in marvel_net.nodes:
+    node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
+    node["value"] = len(neighbor_map[node["id"]])
 
-        # Save to a temporary HTML file
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
-            path = tmp_file.name
-            marvel_net.show(path)
+marvel_net.repulsion()
+marvel_net.show_buttons(filter_=['physics'])
 
-        # Read HTML and display in Streamlit
-        with open(path, 'r', encoding='utf-8') as f:
-            html_content = f.read()
+# Save and display graph
+with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
+    path = tmp_file.name
+    marvel_net.show(path)
 
-        st.subheader("Interactive Network Graph")
-        components.html(html_content, height=850, scrolling=True)
+with open(path, 'r', encoding='utf-8') as f:
+    html_content = f.read()
 
-        # Cleanup temp file
-        os.unlink(path)
-else:
-    st.info("Please upload a .csv file with columns: Source, Target, Weight.")
+st.subheader("Interactive Network Graph")
+components.html(html_content, height=850, scrolling=True)
+
+# Cleanup temp file
+os.unlink(path)
