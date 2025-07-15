@@ -89,7 +89,6 @@ var options = {
 }
 """
 marvel_net.set_options(custom_options)
-marvel_net.show_buttons(filter_=['physics'])
 
 # Save to temp file and render in Streamlit
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
