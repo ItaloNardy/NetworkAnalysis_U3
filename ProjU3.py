@@ -86,7 +86,9 @@ var options = {
       "size": 22,
       "face": "arial",
       "multi": "md",
-      "align": "center"
+      "align": "center",
+      "strokeWidth": 0,
+      "strokeColor": "white"
     },
     "scaling": {
       "min": 10,
@@ -136,6 +138,11 @@ var options = {
       "enabled": true,
       "degree": 1,
       "hover": false
+    },
+    "highlightFont": {
+      "strokeWidth": 4,
+      "strokeColor": "white",
+      "color": "black"
     }
   }
 }
