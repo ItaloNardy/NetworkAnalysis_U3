@@ -10,10 +10,8 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="Marvel Network", layout="wide")
 st.title("Marvel Character Network (from GitHub CSV)")
 
-
 @st.cache_data
 def load_data():
-    # Load CSV file from local repo or public GitHub clone
     df = pd.read_csv("marvel-unimodal-edges.csv")
     return df
 
@@ -46,21 +44,66 @@ for node in marvel_net.nodes:
     node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
     node["value"] = len(neighbor_map[node["id"]])
 
+# Set visual options for readability and stable layout
+custom_options = """
+var options = {
+  "nodes": {
+    "font": {
+      "size": 20,
+      "face": "arial",
+      "align": "center"
+    },
+    "scaling": {
+      "min": 5,
+      "max": 30
+    }
+  },
+  "edges": {
+    "color": {
+      "inherit": true
+    },
+    "smooth": false
+  },
+  "physics": {
+    "enabled": true,
+    "solver": "forceAtlas2Based",
+    "forceAtlas2Based": {
+      "gravitationalConstant": -50,
+      "springLength": 100,
+      "springConstant": 0.08,
+      "centralGravity": 0.005
+    },
+    "timestep": 0.35,
+    "minVelocity": 0.75,
+    "stabilization": {
+      "enabled": true,
+      "iterations": 150,
+      "updateInterval": 30,
+      "onlyDynamicEdges": false,
+      "fit": true
+    }
+  },
+  "interaction": {
+    "hover": true,
+    "tooltipDelay": 50,
+    "hideEdgesOnDrag": true,
+    "zoomView": true,
+    "dragNodes": true,
+    "dragView": true
+  }
+}
+"""
+marvel_net.set_options(custom_options)
 
-
-# Save to temp file and render in Streamlit
+# Save to temp file
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
     marvel_net.save_graph(path)
 
-# Inject custom JS to disable physics after stabilization and re-enable on drag
-with open(path, 'r', encoding='utf-8') as f:
-    html_content = f.read()
-
-# JavaScript to stop physics after layout and re-enable during drag
+# Inject JavaScript to stop physics after layout, re-enable on drag
 custom_js = """
 <script type="text/javascript">
-  const originalInit = function() {
+  function controlPhysics() {
     network.once('stabilizationIterationsDone', function () {
       network.setOptions({ physics: false });
     });
@@ -68,18 +111,22 @@ custom_js = """
       network.setOptions({ physics: true });
     });
     network.on("dragEnd", function () {
-      setTimeout(() => network.setOptions({ physics: false }), 200);
+      setTimeout(() => network.setOptions({ physics: false }), 300);
     });
-  };
+  }
   if (typeof network !== "undefined") {
-    originalInit();
+    controlPhysics();
   } else {
-    setTimeout(originalInit, 1000);
+    setTimeout(controlPhysics, 1000);
   }
 </script>
 """
 
-# Inject the script before </body> or </html>
+# Read, inject JS, and display in Streamlit
+with open(path, 'r', encoding='utf-8') as f:
+    html_content = f.read()
+
+# Inject JS before closing </body> or </html>
 if "</body>" in html_content:
     html_content = html_content.replace("</body>", custom_js + "\n</body>")
 elif "</html>" in html_content:
@@ -87,12 +134,9 @@ elif "</html>" in html_content:
 else:
     html_content += custom_js
 
-# Read and embed HTML
-with open(path, 'r', encoding='utf-8') as f:
-    html_content = f.read()
-
+# Show in Streamlit
 st.subheader("Interactive Network Graph")
 components.html(html_content, height=850, scrolling=True)
 
-# Cleanup temp file
+# Clean up temp file
 os.unlink(path)
