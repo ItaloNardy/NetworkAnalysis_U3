@@ -13,51 +13,58 @@ st.title("Marvel Character Network (from GitHub CSV)")
 
 @st.cache_data
 def load_data():
+    # Load CSV file from local directory (assumed pulled from GitHub)
     df = pd.read_csv("marvel-unimodal-edges.csv")
     return df
 
 # Load and preview data
 df = load_data()
 
-# Validate columns
+# Validate required columns
 if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.error("CSV must contain 'Source', 'Target', and 'Weight' columns.")
     st.stop()
 
-st.success("CSV loaded successfully from GitHub.")
-st.write("Preview of edge list:")
-st.dataframe(df.head())
+# Toggle to limit nodes
+limit_nodes = st.checkbox("Limit graph to 30 rows (for faster rendering)", value=True)
+
+# Limit dataset if checkbox is checked
+if limit_nodes:
+    df = df.head(30)
 
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
 marvel_net.barnes_hut()
 
-# Add nodes and edges
+# Add nodes and edges from the DataFrame
 for _, row in df.iterrows():
     src, dst, w = row['Source'], row['Target'], row['Weight']
     marvel_net.add_node(src, label=src, title=src)
     marvel_net.add_node(dst, label=dst, title=dst)
     marvel_net.add_edge(src, dst, value=w)
 
-# Add neighbor data
+# Add neighbor data to node hover info
 neighbor_map = marvel_net.get_adj_list()
 for node in marvel_net.nodes:
     node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
     node["value"] = len(neighbor_map[node["id"]])
 
+# Graph layout settings
 marvel_net.repulsion()
 marvel_net.show_buttons(filter_=['physics'])
 
-# Save and display graph
+# Save the graph to a temporary HTML file
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
     marvel_net.save_graph(path)
 
+# Load the HTML content
 with open(path, 'r', encoding='utf-8') as f:
     html_content = f.read()
 
+# Display in Streamlit
 st.subheader("Interactive Network Graph")
 components.html(html_content, height=850, scrolling=True)
 
-# Cleanup temp file
+# Clean up temporary file
 os.unlink(path)
