@@ -140,9 +140,9 @@ var options = {
       "hover": false
     },
     "highlightFont": {
-      "strokeWidth": 4,
-      "strokeColor": "white",
-      "color": "black"
+      "strokeWidth": 5,
+      "strokeColor": "red",
+      "color": "red"
     }
   }
 }
