@@ -4,3 +4,4 @@ pandas
 networkx
 matplotlib
 seaborn
+python-louvain
