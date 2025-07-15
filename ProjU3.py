@@ -35,6 +35,46 @@ if limit_nodes:
 # Create Pyvis network
 marvel_net = Network(height='800px', width='100%', notebook=False, cdn_resources='remote')
 marvel_net.barnes_hut()
+marvel_net.set_options(options_json)
+{
+  "nodes": {
+    "font": {
+      "size": 20,
+      "face": "arial",
+      "align": "center"
+    },
+    "scaling": {
+      "min": 5,
+      "max": 30
+    }
+  },
+  "edges": {
+    "color": {
+      "inherit": true
+    },
+    "smooth": false
+  },
+  "physics": {
+    "forceAtlas2Based": {
+      "gravitationalConstant": -50,
+      "springLength": 100,
+      "springConstant": 0.08,
+      "centralGravity": 0.005
+    },
+    "minVelocity": 0.75,
+    "solver": "forceAtlas2Based",
+    "timestep": 0.35,
+    "stabilization": {
+      "iterations": 100
+    }
+  },
+  "interaction": {
+    "hover": true,
+    "tooltipDelay": 50,
+    "hideEdgesOnDrag": true,
+    "zoomView": true
+  }
+}
 
 # Add nodes and edges from the DataFrame
 for _, row in df.iterrows():
