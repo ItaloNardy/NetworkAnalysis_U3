@@ -68,24 +68,29 @@ var options = {
     "smooth": false
   },
   "physics": {
+    "enabled": true,
+    "solver": "forceAtlas2Based",
     "forceAtlas2Based": {
       "gravitationalConstant": -50,
       "springLength": 100,
       "springConstant": 0.08,
       "centralGravity": 0.005
     },
-    "minVelocity": 0.75,
-    "solver": "forceAtlas2Based",
     "timestep": 0.35,
+    "minVelocity": 0.75,
     "stabilization": {
-      "iterations": 100
+      "enabled": true,
+      "iterations": 200,
+      "updateInterval": 25
     }
   },
   "interaction": {
     "hover": true,
     "tooltipDelay": 50,
     "hideEdgesOnDrag": true,
-    "zoomView": true
+    "zoomView": true,
+    "dragNodes": true,
+    "dragView": true
   }
 }
 """
