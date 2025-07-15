@@ -38,13 +38,14 @@ for _, row in df.iterrows():
     marvel_net.add_node(dst, label=dst, title=dst)
     marvel_net.add_edge(src, dst, value=w)
 
-# Add neighbor info to hover text
+# Add neighbor info to hover text and size nodes by number of connections
 neighbor_map = marvel_net.get_adj_list()
 for node in marvel_net.nodes:
+    degree = len(neighbor_map[node["id"]])
     node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
-    node["value"] = len(neighbor_map[node["id"]])
+    node["value"] = degree  # This also helps space out nodes visually
 
-# Set visual options for readability and stable layout
+# Set visual + physics options with overlap avoidance
 custom_options = """
 var options = {
   "nodes": {
@@ -54,8 +55,8 @@ var options = {
       "align": "center"
     },
     "scaling": {
-      "min": 5,
-      "max": 30
+      "min": 10,
+      "max": 40
     }
   },
   "edges": {
@@ -68,8 +69,8 @@ var options = {
     "enabled": true,
     "solver": "forceAtlas2Based",
     "forceAtlas2Based": {
-      "gravitationalConstant": -50,
-      "springLength": 100,
+      "gravitationalConstant": -80,
+      "springLength": 150,
       "springConstant": 0.08,
       "centralGravity": 0.005
     },
@@ -77,7 +78,7 @@ var options = {
     "minVelocity": 0.75,
     "stabilization": {
       "enabled": true,
-      "iterations": 150,
+      "iterations": 200,
       "updateInterval": 30,
       "onlyDynamicEdges": false,
       "fit": true
@@ -89,7 +90,8 @@ var options = {
     "hideEdgesOnDrag": true,
     "zoomView": true,
     "dragNodes": true,
-    "dragView": true
+    "dragView": true,
+    "selectConnectedEdges": true
   }
 }
 """
