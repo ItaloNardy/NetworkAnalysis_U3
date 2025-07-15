@@ -5,7 +5,7 @@ import tempfile
 import os
 import streamlit.components.v1 as components
 
-# Try to import Louvain, install if not present
+# Try to import Louvain community detection
 try:
     import community as community_louvain
 except ImportError:
@@ -18,7 +18,7 @@ import networkx as nx
 
 # Streamlit setup
 st.set_page_config(page_title="Marvel Network", layout="wide")
-st.title("Marvel Character Network with Communities and Hubs")
+st.title("Marvel Character Network with Clustering & Interactions")
 
 @st.cache_data
 def load_data():
@@ -54,7 +54,7 @@ palette = [
 # Create Pyvis network
 marvel_net = Network(height='850px', width='100%', notebook=False, cdn_resources='remote')
 
-# Add nodes with community color and degree-based size
+# Add nodes with community color and hub size
 for node in G.nodes():
     community_id = partition.get(node, 0)
     degree = degree_dict.get(node, 1)
@@ -76,8 +76,8 @@ for _, row in df.iterrows():
     src, dst, w = row['Source'], row['Target'], row['Weight']
     marvel_net.add_edge(src, dst, value=w)
 
-# Custom physics + interaction options
-custom_options = """
+# Enable interactive features for highlighting
+marvel_net.set_options("""
 var options = {
   "nodes": {
     "font": {
@@ -124,18 +124,23 @@ var options = {
     "zoomView": true,
     "dragNodes": true,
     "dragView": true,
-    "selectConnectedEdges": true
+    "selectConnectedEdges": true,
+    "multiselect": false,
+    "highlightNearest": {
+      "enabled": true,
+      "degree": 1,
+      "hover": false
+    }
   }
 }
-"""
-marvel_net.set_options(custom_options)
+""")
 
 # Save graph to temp file
 with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as tmp_file:
     path = tmp_file.name
     marvel_net.save_graph(path)
 
-# Inject JavaScript to control physics behavior
+# Inject JS to control physics on drag
 custom_js = """
 <script type="text/javascript">
   function controlPhysics() {
@@ -157,7 +162,7 @@ custom_js = """
 </script>
 """
 
-# Inject JS into HTML
+# Inject JS
 with open(path, 'r', encoding='utf-8') as f:
     html_content = f.read()
 
