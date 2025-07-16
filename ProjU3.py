@@ -63,7 +63,7 @@ palette = [
 ]
 
 # Create Pyvis network
-marvel_net = Network(height='850px', width='100%', notebook=False, cdn_resources='remote')
+marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote')
 
 # Add nodes with community color and hub size
 for node in G.nodes():
@@ -211,7 +211,8 @@ else:
 # Adjacency matrix as a DataFrame
 adj_matrix = nx.adjacency_matrix(G_connected)
 adj_df = pd.DataFrame(adj_matrix.todense(), index=G_connected.nodes(), columns=G_connected.nodes())
-st.markdown("### Adjacency Matrix")
+nodes_number = len(list(nx.nodes(marvel_net)))
+st.markdown("### Adjacency Matrix ({nodes_number}X{nodes_number})")
 st.dataframe(adj_df.style.format("{:.0f}"))
 
 # Diameter
