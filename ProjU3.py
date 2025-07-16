@@ -75,7 +75,7 @@ for node in G.nodes():
     marvel_net.add_node(
         node,
         label=node,
-        title=f"Community: {community_id}<br>Degree: {degree}",
+        title=f"Community: {community_id}\nDegree: {degree}",
         color=color,
         size=size,
         shape="dot",
