@@ -38,7 +38,16 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
 # Toggle to limit graph size
 limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=True)
 if limit_nodes:
+    df = df.head(500)
+    limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
+if limit_nodes:
     df = df.head(1000)
+limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
+if limit_nodes:
+    df = df.head(3000)
+limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
+if limit_nodes:
+    df = df.head(5000)
 
 # Build NetworkX graph
 G = nx.from_pandas_edgelist(df, source='Source', target='Target', edge_attr='Weight')
