@@ -36,17 +36,17 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.stop()
 
 # Toggle to limit graph size
-limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=True)
-if limit_nodes:
+limit_nodes500 = st.checkbox("Limit graph to first 500 edges (for faster preview)", value=True)
+if limit_nodes500:
     df = df.head(500)
-    limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
-if limit_nodes:
+limit_nodes1000 = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
+if limit_nodes1000:
     df = df.head(1000)
-limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
-if limit_nodes:
+limit_nodes3000 = st.checkbox("Limit graph to first 3000 edges (for faster preview)", value=False)
+if limit_nodes3000:
     df = df.head(3000)
-limit_nodes = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
-if limit_nodes:
+limit_nodes5000 = st.checkbox("Limit graph to first 5000 edges (for faster preview)", value=False)
+if limit_nodes5000:
     df = df.head(5000)
 
 # Build NetworkX graph
