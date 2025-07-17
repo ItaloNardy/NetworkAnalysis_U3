@@ -302,3 +302,57 @@ wcc_sizes = [len(wcc) for wcc in wccs]
 
 st.markdown(f"### Weakly Connected Components: **{wcc_count}**")
 st.write(f"Top 5 WCC sizes: {sorted(wcc_sizes, reverse=True)[:5]}")
+
+st.subheader("Node Centrality Analysis")
+
+# Compute centrality metrics
+with st.spinner("Calculating centralities..."):
+    eigen_centrality = nx.eigenvector_centrality(G_connected, max_iter=1000)
+    degree_centrality = nx.degree_centrality(G_connected)
+    closeness_centrality = nx.closeness_centrality(G_connected)
+    betweenness_centrality = nx.betweenness_centrality(G_connected)
+
+# Create DataFrame for centralities
+centrality_df = pd.DataFrame({
+    'Node': list(G_connected.nodes()),
+    'Eigenvector': [eigen_centrality[n] for n in G_connected.nodes()],
+    'Degree': [degree_centrality[n] for n in G_connected.nodes()],
+    'Closeness': [closeness_centrality[n] for n in G_connected.nodes()],
+    'Betweenness': [betweenness_centrality[n] for n in G_connected.nodes()]
+})
+
+# Sort by each centrality and show top 10
+st.markdown("### Top 10 Nodes by Centrality Measures")
+top_k = 10
+cols = st.columns(4)
+for i, metric in enumerate(['Eigenvector', 'Degree', 'Closeness', 'Betweenness']):
+    top_nodes = centrality_df.nlargest(top_k, metric)
+    with cols[i]:
+        st.markdown(f"**{metric} Centrality**")
+        st.dataframe(top_nodes[['Node', metric]].reset_index(drop=True), use_container_width=True)
+
+# Plot all centralities for comparison (barplot of top nodes by any metric)
+st.markdown("### Centrality Comparison Plot")
+
+# Melt the DataFrame for seaborn-like plot
+centrality_melted = centrality_df.melt(id_vars='Node', var_name='Centrality Type', value_name='Score')
+
+# Keep only top N nodes across all types
+top_nodes_all = set()
+for metric in ['Eigenvector', 'Degree', 'Closeness', 'Betweenness']:
+    top_nodes_all.update(centrality_df.nlargest(top_k, metric)['Node'])
+
+filtered_df = centrality_melted[centrality_melted['Node'].isin(top_nodes_all)]
+
+# Plot
+fig, ax = plt.subplots(figsize=(12, 6))
+for centrality_type in filtered_df['Centrality Type'].unique():
+    subset = filtered_df[filtered_df['Centrality Type'] == centrality_type]
+    top_subset = subset.sort_values('Score', ascending=False).head(top_k)
+    ax.bar(top_subset['Node'] + " (" + centrality_type[0] + ")", top_subset['Score'], label=centrality_type)
+
+ax.set_title("Top Nodes by Centrality Types")
+ax.set_ylabel("Centrality Score")
+ax.set_xticklabels(top_subset['Node'], rotation=45, ha='right')
+ax.legend()
+st.pyplot(fig)

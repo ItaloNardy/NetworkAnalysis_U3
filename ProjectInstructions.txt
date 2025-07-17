@@ -101,13 +101,13 @@ Display visualizations of:
 
 Show and explain the values of:
 
-    Local clustering coefficient for selected nodes                                  // INCLUDE: X EXPLAIN: X
+    Local clustering coefficient for selected nodes                                  // INCLUDE: V EXPLAIN: X
 
-    Global clustering coefficient                                                    // INCLUDE: X EXPLAIN: X
+    Global clustering coefficient                                                    // INCLUDE: V EXPLAIN: X
 
-    Strongly Connected Components (note: the graph must be directed for this metric) // INCLUDE: X EXPLAIN: X
+    Strongly Connected Components (note: the graph must be directed for this metric) // INCLUDE: V EXPLAIN: X
 
-    Weakly Connected Components                                                      // INCLUDE: X EXPLAIN: X
+    Weakly Connected Components                                                      // INCLUDE: V EXPLAIN: X
 
 Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
 
