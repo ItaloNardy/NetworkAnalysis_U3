@@ -211,7 +211,8 @@ else:
 # Adjacency matrix as a DataFrame
 adj_matrix = nx.adjacency_matrix(G_connected)
 adj_df = pd.DataFrame(adj_matrix.todense(), index=G_connected.nodes(), columns=G_connected.nodes())
-st.markdown("### Adjacency Matrix")
+N = len(G_connected.nodes())
+st.markdown(f"### Adjacency Matrix ({N}x{N})")
 st.dataframe(adj_df.style.format("{:.0f}"))
 
 # Diameter

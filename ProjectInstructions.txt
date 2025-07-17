@@ -77,47 +77,47 @@ U3 - PROJECT:
 
 Using a dataset of your choice, develop an exploratory analysis workflow in a Colab Notebook and make it available on your GitHub. In particular:
 
-    Explain what your dataset is.
+    Explain what your dataset is.                                                    // INCLUDE: V EXPLAIN: X
 
-    Explain what the nodes and edges are.
+    Explain what the nodes and edges are.                                            // INCLUDE: V EXPLAIN: X
 
-    Explain if it was necessary to filter nodes or generate a subgraph.
+    Explain if it was necessary to filter nodes or generate a subgraph.              // INCLUDE: V EXPLAIN: X
 
 The analysis must include and explain, in the context of your dataset, the main network analysis concepts covered so far:
 
-    Adjacency matrix
+    Adjacency matrix                                                                 // INCLUDE: V EXPLAIN: X
 
-    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).
+    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).  // INCLUDE: V EXPLAIN: X
 
 Show and explain the values of:
 
-    Sparsity/Density of the network
+    Sparsity/Density of the network                                                  // INCLUDE: X EXPLAIN: X
 
-    General assortativity of the network
+    General assortativity of the network                                             // INCLUDE: X EXPLAIN: X
 
 Display visualizations of:
 
-    Empirical degree distribution histogram
+    Empirical degree distribution histogram                                          // INCLUDE: X EXPLAIN: X
 
 Show and explain the values of:
 
-    Local clustering coefficient for selected nodes
+    Local clustering coefficient for selected nodes                                  // INCLUDE: X EXPLAIN: X
 
-    Global clustering coefficient
+    Global clustering coefficient                                                    // INCLUDE: X EXPLAIN: X
 
-    Strongly Connected Components (note: the graph must be directed for this metric)
+    Strongly Connected Components (note: the graph must be directed for this metric) // INCLUDE: X EXPLAIN: X
 
-    Weakly Connected Components
+    Weakly Connected Components                                                      // INCLUDE: X EXPLAIN: X
 
 Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
 
-    Eigenvector centrality
+    Eigenvector centrality                                                           // INCLUDE: X EXPLAIN: X
 
-    Degree centrality
+    Degree centrality                                                                // INCLUDE: X EXPLAIN: X
 
-    Closeness centrality
+    Closeness centrality                                                             // INCLUDE: X EXPLAIN: X
 
-    Betweenness centrality
+    Betweenness centrality                                                           // INCLUDE: X EXPLAIN: X
 
 Check this reference for data visualizations:
 https://datasciencedojo.com/blog/network-theory-game-of-thrones/
@@ -133,9 +133,7 @@ Implement the analysis in a visualization tool, exploring at least two of the fo
     Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud
 
     Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:
-
         https://www.youtube.com/watch?v=ok4iFOe9niU
-
         https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
 
 4 - [2.5 points]
