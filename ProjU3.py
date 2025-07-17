@@ -71,7 +71,8 @@ palette = [
 ]
 
 # Create Pyvis network
-marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote')
+marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote', directed=True)
+
 
 # Add nodes with community color and hub size
 for node in G.nodes():
@@ -93,7 +94,12 @@ for node in G.nodes():
 # Add edges
 for _, row in df.iterrows():
     src, dst, w = row['Source'], row['Target'], row['Weight']
-    marvel_net.add_edge(src, dst, value=w)
+    marvel_net.add_edge(
+        src, dst,
+        value=w,
+        title=f"Weight: {w}",
+        arrows='to'
+    )
 
 # Enable interactive features for highlighting
 marvel_net.set_options("""
