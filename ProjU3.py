@@ -21,7 +21,7 @@ import networkx as nx
 
 # Streamlit setup
 st.set_page_config(page_title="Marvel Network", layout="wide")
-st.title("Marvel Character Network with Clustering & Interactions")
+st.title("Marvel Character Network with Clustering & Interactions (Total: N=327, E=9891)")
 
 @st.cache_data
 def load_data():
@@ -36,19 +36,26 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.error("CSV must contain 'Source', 'Target', and 'Weight' columns.")
     st.stop()
 
-# Toggle to limit graph size
-limit_nodes500 = st.checkbox("Limit graph to first 500 edges (for faster preview)", value=True)
-if limit_nodes500:
-    df = df.head(500)
-limit_nodes1000 = st.checkbox("Limit graph to first 1000 edges (for faster preview)", value=False)
-if limit_nodes1000:
-    df = df.head(1000)
-limit_nodes3000 = st.checkbox("Limit graph to first 3000 edges (for faster preview)", value=False)
-if limit_nodes3000:
-    df = df.head(3000)
-limit_nodes5000 = st.checkbox("Limit graph to first 5000 edges (for faster preview)", value=False)
-if limit_nodes5000:
-    df = df.head(5000)
+# Edge display limit input
+st.subheader("Edge Display Control")
+
+default_limit = 500
+edge_limit_input = st.text_input("Enter number of edges to display (positive integer):", value=str(default_limit))
+
+# Button to trigger display
+apply_limit = st.button("Display Graph with Limited Edges")
+
+# Apply limit only if button pressed
+if apply_limit:
+    try:
+        edge_limit = max(1, int(edge_limit_input))
+        df = df.head(edge_limit)
+        st.success(f"Displaying first {edge_limit} edges.")
+    except ValueError:
+        st.error("Please enter a valid positive integer.")
+else:
+    # Default to 500 edges before user presses button
+    df = df.head(default_limit)
 
 # Build NetworkX graph
 G = nx.from_pandas_edgelist(df, source='Source', target='Target', edge_attr='Weight')
