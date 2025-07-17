@@ -6,6 +6,7 @@ from pyvis.network import Network
 import tempfile
 import os
 import streamlit.components.v1 as components
+import matplotlib.pyplot as plt
 
 # Try to import Louvain community detection
 try:
