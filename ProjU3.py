@@ -252,9 +252,47 @@ except nx.NetworkXError as e:
 degrees = [deg for _, deg in G_connected.degree()]
 
 # Plot histogram
-fig, ax = plt.subplots(figsize=(10, 5))
+fig, ax = plt.subplots(figsize=(8, 4))
 ax.hist(degrees, bins=30, color='skyblue', edgecolor='black')
 ax.set_title("Node Degree Distribution")
 ax.set_xlabel("Degree")
 ax.set_ylabel("Number of Nodes")
 st.pyplot(fig)
+
+st.subheader("Clustering and Connectivity Analysis")
+
+# Convert to directed graph for SCC/WCC
+G_directed = nx.DiGraph()
+G_directed.add_weighted_edges_from([(row['Source'], row['Target'], row['Weight']) for _, row in df.iterrows()])
+
+# Global clustering coefficient (transitivity)
+global_clustering = nx.transitivity(G)
+st.markdown(f"### Global Clustering Coefficient: **{global_clustering:.4f}**")
+
+# Local clustering coefficient for selected nodes
+st.markdown("### Local Clustering Coefficient")
+selected_nodes = st.multiselect("Select nodes to inspect their local clustering coefficient:", list(G.nodes())[:100])
+if selected_nodes:
+    for node in selected_nodes:
+        coeff = nx.clustering(G, node)
+        st.write(f"Node **{node}**: Clustering Coefficient = **{coeff:.4f}**")
+
+# Strongly Connected Components (requires directed graph)
+if nx.is_strongly_connected(G_directed):
+    scc_count = 1
+    scc_sizes = [len(G_directed.nodes())]
+else:
+    sccs = list(nx.strongly_connected_components(G_directed))
+    scc_count = len(sccs)
+    scc_sizes = [len(scc) for scc in sccs]
+
+st.markdown(f"### Strongly Connected Components: **{scc_count}**")
+st.write(f"Top 5 SCC sizes: {sorted(scc_sizes, reverse=True)[:5]}")
+
+# Weakly Connected Components
+wccs = list(nx.weakly_connected_components(G_directed))
+wcc_count = len(wccs)
+wcc_sizes = [len(wcc) for wcc in wccs]
+
+st.markdown(f"### Weakly Connected Components: **{wcc_count}**")
+st.write(f"Top 5 WCC sizes: {sorted(wcc_sizes, reverse=True)[:5]}")

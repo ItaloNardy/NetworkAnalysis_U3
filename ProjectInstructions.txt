@@ -91,13 +91,13 @@ The analysis must include and explain, in the context of your dataset, the main 
 
 Show and explain the values of:
 
-    Sparsity/Density of the network                                                  // INCLUDE: X EXPLAIN: X
+    Sparsity/Density of the network                                                  // INCLUDE: V EXPLAIN: X
 
-    General assortativity of the network                                             // INCLUDE: X EXPLAIN: X
+    General assortativity of the network                                             // INCLUDE: V EXPLAIN: X
 
 Display visualizations of:
 
-    Empirical degree distribution histogram                                          // INCLUDE: X EXPLAIN: X
+    Empirical degree distribution histogram                                          // INCLUDE: V
 
 Show and explain the values of:
 
