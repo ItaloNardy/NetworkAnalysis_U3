@@ -237,3 +237,16 @@ try:
     st.markdown(f"### Degree Assortativity Coefficient: **{assortativity:.5f}**")
 except nx.NetworkXError as e:
     st.warning(f"Assortativity could not be computed: {e}")
+
+# DEGREE HISTOGRAM
+
+# Compute degrees
+degrees = [deg for _, deg in G_connected.degree()]
+
+# Plot histogram
+fig, ax = plt.subplots(figsize=(10, 5))
+ax.hist(degrees, bins=30, color='skyblue', edgecolor='black')
+ax.set_title("Node Degree Distribution")
+ax.set_xlabel("Degree")
+ax.set_ylabel("Number of Nodes")
+st.pyplot(fig)
