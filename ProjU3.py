@@ -223,3 +223,17 @@ st.markdown(f"### Diameter of the connected network: **{diameter}**")
 periphery_nodes = list(nx.periphery(G_connected))
 st.markdown(f"### Periphery Nodes ({len(periphery_nodes)} nodes):")
 st.write(periphery_nodes)
+
+# DENSITY & ASSORTATIVITY
+
+# Density of the connected graph
+density = nx.density(G_connected)
+st.markdown(f"### Network Density: **{density:.5f}**")
+st.markdown(f"### Network Sparsity: **{(1 - density):.5f}**")
+
+# General degree assortativity
+try:
+    assortativity = nx.degree_assortativity_coefficient(G_connected)
+    st.markdown(f"### Degree Assortativity Coefficient: **{assortativity:.5f}**")
+except nx.NetworkXError as e:
+    st.warning(f"Assortativity could not be computed: {e}")
