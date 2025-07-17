@@ -344,33 +344,24 @@ for metric in ['Eigenvector', 'Degree', 'Closeness', 'Betweenness']:
 
 filtered_df = centrality_melted[centrality_melted['Node'].isin(top_nodes_all)]
 
-# Plot combined bar chart with all centrality types
+# Combine and sort all top 10 nodes per centrality
+all_top = pd.concat([
+    filtered_df[filtered_df['Centrality Type'] == ctype].sort_values('Score', ascending=False).head(top_k)
+    for ctype in ['Eigenvector', 'Degree', 'Closeness', 'Betweenness']
+])
+all_top = all_top.sort_values('Score', ascending=False).reset_index(drop=True)
+
+# Create labels with centrality type abbreviation
+label_map = {'Eigenvector': 'E', 'Degree': 'D', 'Closeness': 'C', 'Betweenness': 'B'}
+bar_labels = [f"{row['Node']} ({label_map[row['Centrality Type']]})" for _, row in all_top.iterrows()]
+bar_scores = all_top['Score'].tolist()
+bar_colors = [color_map[row['Centrality Type']] for _, row in all_top.iterrows()]
+
+# Plot
 fig, ax = plt.subplots(figsize=(16, 6))
-
-bar_labels = []
-bar_scores = []
-bar_colors = []
-
-color_map = {
-    'Eigenvector': '#1f77b4',
-    'Degree': '#ff7f0e',
-    'Closeness': '#2ca02c',
-    'Betweenness': '#d62728'
-}
-
-for centrality_type in ['Eigenvector', 'Degree', 'Closeness', 'Betweenness']:
-    subset = filtered_df[filtered_df['Centrality Type'] == centrality_type]
-    top_subset = subset.sort_values('Score', ascending=False).head(top_k)
-    for _, row in top_subset.iterrows():
-        label = f"{row['Node']} ({centrality_type[0]})"
-        bar_labels.append(label)
-        bar_scores.append(row['Score'])
-        bar_colors.append(color_map[centrality_type])
-
-# Plot all bars at once
 ax.bar(bar_labels, bar_scores, color=bar_colors)
 
-ax.set_title("Top 10 Nodes per Centrality Type")
+ax.set_title("Top Central Nodes (All Metrics Sorted by Score)")
 ax.set_ylabel("Centrality Score")
 ax.set_xticks(range(len(bar_labels)))
 ax.set_xticklabels(bar_labels, rotation=65, ha='right')
