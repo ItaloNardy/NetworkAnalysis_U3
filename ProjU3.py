@@ -450,8 +450,8 @@ def edge_overlap_removal(graph, remove_fraction=0.3, ascending=True):
     return x_vals, y_vals
 
 # Run both simulations
-x_low, y_low = edge_overlap_removal(G_connected, remove_fraction=0.3, ascending=True)
-x_high, y_high = edge_overlap_removal(G_connected, remove_fraction=0.3, ascending=False)
+x_low, y_low = edge_overlap_removal(G_connected, remove_fraction=0.9, ascending=True)
+x_high, y_high = edge_overlap_removal(G_connected, remove_fraction=0.9, ascending=False)
 
 # Plot both on same figure
 fig, ax = plt.subplots(figsize=(8, 5))
