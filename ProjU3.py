@@ -356,6 +356,7 @@ ax.set_xlim(-1, len(bar_labels))
 ax.legend(handles=[plt.Rectangle((0,0),1,1,color=c,label=l) for l,c in color_map.items()])
 st.pyplot(fig)
 
+# Attack comparison graph
 st.markdown("## Network Robustness: Random vs Targeted Attack")
 
 def simulate_attack(graph, strategy="random", remove_fraction=0.3):
