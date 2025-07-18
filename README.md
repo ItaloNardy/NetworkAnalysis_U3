@@ -6,6 +6,8 @@
 
 [Database source](https://github.com/melaniewalsh/sample-social-network-datasets/tree/master/sample-datasets/marvel)
 
+[Colab Notebook Snapshot](https://github.com/ItaloNardy/NetworkAnalysis_U3/blob/main/ProjU3.ipynb)
+
 [Steamlit app](https://networkanalysisu3-9na9kkitvebebhnax3xihk.streamlit.app/)
 
 [Gephi](https://italonardy.github.io/NetworkAnalysis_U3_Gephi)
