@@ -1,0 +1,53 @@
+{
+  "type": "network",
+  "version": "1.0",
+  "data": "data.json",
+  "logo": {
+    "file": "",
+    "link": "",
+    "text": "Italo Nardy"
+  },
+  "text": {
+    "more": "The nodes csv contains 327 different Marvel characters, and the edges csv contains 9,891 weighted relationships between those characters, which were calculated based on how many times two characters appeared together in the same comic book. In order to make this data more accessible for basic social network analysis, it has been condensed from 6,486 characters to only the top 327 most connected characters, who are connected to at least 8 other characters and with whom they appear in at least 5 different comic books.",
+    "intro": "Marvel Character Interactions Network",
+    "title": "NetworkAnalysisU3Gephi"
+  },
+  "legend": {
+    "edgeLabel": "Appearance on the same comic",
+    "colorLabel": "Groups",
+    "nodeLabel": "Characters"
+  },
+  "features": {
+    "search": true,
+    "groupSelectorAttribute": "color",
+    "hoverBehavior": "dim"
+  },
+  "informationPanel": {
+    "groupByEdgeDirection": false,
+    "imageAttribute": "Label"
+  },
+  "sigma": {
+    "drawingProperties": {
+      "defaultEdgeType": "curve",
+      "defaultHoverLabelBGColor": "#002147",
+      "defaultLabelBGColor": "#ddd",
+      "activeFontStyle": "bold",
+      "defaultLabelColor": "#000",
+      "labelThreshold": 10,
+      "defaultLabelHoverColor": "#fff",
+      "fontStyle": "bold",
+      "hoverFontStyle": "bold",
+      "defaultLabelSize": 14
+    },
+    "graphProperties": {
+      "maxEdgeSize": 0.5,
+      "minEdgeSize": 0.2,
+      "minNodeSize": 1,
+      "maxNodeSize": 7
+    },
+    "mouseProperties": {
+      "maxRatio": 20,
+      "minRatio": 0.75
+    }
+  }
+}
