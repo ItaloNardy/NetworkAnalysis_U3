@@ -359,7 +359,7 @@ st.pyplot(fig)
 # Attack comparison graph
 st.markdown("## Network Robustness: Random vs Targeted Attack")
 
-def simulate_attack(graph, strategy="random", remove_fraction=0.3):
+def simulate_attack(graph, strategy="random", remove_fraction=1):
     """
     Simulates attack by progressively removing nodes.
     :param graph: NetworkX graph
