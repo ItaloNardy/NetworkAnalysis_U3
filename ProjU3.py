@@ -71,7 +71,7 @@ palette = [
 ]
 
 # Create Pyvis network
-marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote', directed=False)
+marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote')
 
 # Add nodes with community color and hub size
 for node in G.nodes():
