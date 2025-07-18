@@ -40,7 +40,7 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
 # Edge display limit input
 st.markdown("## Edge Display Control")
 
-default_limit = 500
+default_limit = 2000
 edge_limit_input = st.text_input("Enter number of edges to display (positive integer):", value=str(default_limit))
 
 # Button to trigger display
