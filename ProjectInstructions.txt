@@ -76,48 +76,66 @@ U3 - PROJECT:
 1 - [5 points]
 
 Using a dataset of your choice, develop an exploratory analysis workflow in a Colab Notebook and make it available on your GitHub. In particular:
+    Explain what your dataset is.                                                                                           // INCLUDE: V EXPLAIN: V
+    Explain what the nodes and edges are.                                                                                   // INCLUDE: V EXPLAIN: V
+    Explain if it was necessary to filter nodes or generate a subgraph.                                                     // INCLUDE: V EXPLAIN: V
 
-    Explain what your dataset is.                                                    // INCLUDE: V EXPLAIN: V
 
-    Explain what the nodes and edges are.                                            // INCLUDE: V EXPLAIN: V
+"It was a connected dataset that had been reduced by 20x, from almost 6.5k nodes to 330 nodes, where each node is a marvel character and each link is them appearing on the same comic book"
 
-    Explain if it was necessary to filter nodes or generate a subgraph.              // INCLUDE: V EXPLAIN: V
 
 The analysis must include and explain, in the context of your dataset, the main network analysis concepts covered so far:
+    Adjacency matrix                                                                                                        // INCLUDE: V EXPLAIN: V
 
-    Adjacency matrix                                                                 // INCLUDE: V EXPLAIN: X
 
-    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).  // INCLUDE: V EXPLAIN: X
+"The adjancency matrix is symmetric as the graph is undirected"
+
+
+    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).  // INCLUDE: V EXPLAIN: V
+
+
+"Very few periphery nodes and very small diameter as the graph is a Scale Free network as we'll see"
+
 
 Show and explain the values of:
+    Sparsity/Density of the network                                                                                         // INCLUDE: V EXPLAIN: V
 
-    Sparsity/Density of the network                                                  // INCLUDE: V EXPLAIN: X
 
-    General assortativity of the network                                             // INCLUDE: V EXPLAIN: X
+"Highly sparse due to few main characters and many minor ones such as family, love interest, friends, minor villains and heroes""
 
+
+    General assortativity of the network                                                                                    // INCLUDE: V EXPLAIN: V
 Display visualizations of:
+    Empirical degree distribution histogram                                                                                 // INCLUDE: V EXPLAIN: V
 
-    Empirical degree distribution histogram                                          // INCLUDE: V
+
+"We can observe a clear PowerLaw distribution, with the presence of big hubs with low degree nodes connected to them, showing it's a Scale Free Network."
+
 
 Show and explain the values of:
+    Local clustering coefficient for selected nodes                                                                         // INCLUDE: V EXPLAIN: V
+    Global clustering coefficient                                                                                           // INCLUDE: V EXPLAIN: V
 
-    Local clustering coefficient for selected nodes                                  // INCLUDE: V EXPLAIN: X
 
-    Global clustering coefficient                                                    // INCLUDE: V EXPLAIN: X
+"That means Global clustering is very low, while local clustering can be high for a few characters"
 
-    Strongly Connected Components (note: the graph must be directed for this metric) // INCLUDE: V EXPLAIN: X
 
-    Weakly Connected Components                                                      // INCLUDE: V EXPLAIN: X
+    Strongly Connected Components (note: the graph must be directed for this metric)                                        // INCLUDE: V EXPLAIN: V
+    Weakly Connected Components                                                                                             // INCLUDE: V EXPLAIN: V
+
+
+"N/A because the graph is undirected"
+
 
 Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
 
-    Eigenvector centrality                                                           // INCLUDE: V EXPLAIN: X
+    Eigenvector centrality                                                                                                  // INCLUDE: V EXPLAIN: X
 
-    Degree centrality                                                                // INCLUDE: V EXPLAIN: X
+    Degree centrality                                                                                                       // INCLUDE: V EXPLAIN: X
 
-    Closeness centrality                                                             // INCLUDE: V EXPLAIN: X
+    Closeness centrality                                                                                                    // INCLUDE: V EXPLAIN: X
 
-    Betweenness centrality                                                           // INCLUDE: V EXPLAIN: X
+    Betweenness centrality                                                                                                  // INCLUDE: V EXPLAIN: X
 
 Check this reference for data visualizations:
 https://datasciencedojo.com/blog/network-theory-game-of-thrones/
@@ -131,9 +149,9 @@ Implement the analysis in a visualization tool, exploring at least two of the fo
     Pyvis in a GitHub directory, e.g., http://terrematte.github.io/network_analysis/docs/
 
 
-    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud    // INCLUDE: V
+    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud                                           // INCLUDE: V
 
-    Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:                                                          // INCLUDE: V
+    Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:                                                                                                 // INCLUDE: V
         https://www.youtube.com/watch?v=ok4iFOe9niU
         https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
 
