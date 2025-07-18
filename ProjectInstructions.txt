@@ -79,9 +79,9 @@ Using a dataset of your choice, develop an exploratory analysis workflow in a Co
 
     Explain what your dataset is.                                                    // INCLUDE: V EXPLAIN: V
 
-    Explain what the nodes and edges are.                                            // INCLUDE: V EXPLAIN: X
+    Explain what the nodes and edges are.                                            // INCLUDE: V EXPLAIN: V
 
-    Explain if it was necessary to filter nodes or generate a subgraph.              // INCLUDE: V EXPLAIN: X
+    Explain if it was necessary to filter nodes or generate a subgraph.              // INCLUDE: V EXPLAIN: V
 
 The analysis must include and explain, in the context of your dataset, the main network analysis concepts covered so far:
 

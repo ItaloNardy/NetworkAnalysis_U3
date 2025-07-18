@@ -21,7 +21,7 @@ import networkx as nx
 
 # Streamlit setup
 st.set_page_config(page_title="Marvel Network", layout="wide")
-st.title("Marvel Character Network with Clustering & Interactions (Total: N=327, E=9891)")
+st.markdown("# Marvel Character Network with Clustering & Interactions (Total: N=327, E=9891)")
 
 @st.cache_data
 def load_data():
@@ -37,7 +37,7 @@ if not {'Source', 'Target', 'Weight'}.issubset(df.columns):
     st.stop()
 
 # Edge display limit input
-st.subheader("Edge Display Control")
+st.markdown("## Edge Display Control")
 
 default_limit = 500
 edge_limit_input = st.text_input("Enter number of edges to display (positive integer):", value=str(default_limit))
@@ -197,7 +197,7 @@ else:
     html_content += custom_js
 
 # Show in Streamlit
-st.subheader("Interactive Network Graph")
+st.markdown("## Interactive Network Graph")
 components.html(html_content, height=900, scrolling=True)
 
 # Cleanup
@@ -205,7 +205,7 @@ os.unlink(path)
 
 # METRICS
 
-st.subheader("Network Analysis Metrics")
+st.markdown("## Network Analysis Metrics")
 
 # Check if graph is connected; if not, get largest connected component
 if nx.is_connected(G):
@@ -259,7 +259,7 @@ ax.set_xlabel("Degree")
 ax.set_ylabel("Number of Nodes")
 st.pyplot(fig)
 
-st.subheader("Clustering and Connectivity Analysis")
+st.markdown("## Clustering and Connectivity Analysis")
 
 # Convert to directed graph for SCC/WCC
 G_directed = nx.DiGraph()
@@ -283,7 +283,7 @@ st.markdown(f"### Strongly Connected Components: N/A")
 # Weakly Connected Components
 st.markdown(f"### Weakly Connected Components: N/A")
 
-st.subheader("Node Centrality Analysis")
+st.markdown("## Node Centrality Analysis")
 
 # Compute centrality metrics
 with st.spinner("Calculating centralities..."):
@@ -354,3 +354,4 @@ ax.set_xticklabels(bar_labels, rotation=65, ha='right')
 ax.set_xlim(-1, len(bar_labels))
 ax.legend(handles=[plt.Rectangle((0,0),1,1,color=c,label=l) for l,c in color_map.items()])
 st.pyplot(fig)
+
