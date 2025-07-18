@@ -97,7 +97,6 @@ for _, row in df.iterrows():
         src, dst,
         value=w,
         title=f"Weight: {w}",
-        arrows='to'
     )
 
 # Enable interactive features for highlighting
