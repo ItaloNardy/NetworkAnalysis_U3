@@ -71,8 +71,7 @@ palette = [
 ]
 
 # Create Pyvis network
-marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote', directed=True)
-
+marvel_net = Network(height='900px', width='100%', notebook=False, cdn_resources='remote', directed=False)
 
 # Add nodes with community color and hub size
 for node in G.nodes():
@@ -267,10 +266,6 @@ st.pyplot(fig)
 
 st.subheader("Clustering and Connectivity Analysis")
 
-# Convert to directed graph for SCC/WCC
-G_directed = nx.DiGraph()
-G_directed.add_weighted_edges_from([(row['Source'], row['Target'], row['Weight']) for _, row in df.iterrows()])
-
 # Global clustering coefficient (transitivity)
 global_clustering = nx.transitivity(G)
 st.markdown(f"### Global Clustering Coefficient: **{global_clustering:.4f}**")
@@ -284,24 +279,10 @@ if selected_nodes:
         st.write(f"Node **{node}**: Clustering Coefficient = **{coeff:.4f}**")
 
 # Strongly Connected Components (requires directed graph)
-if nx.is_strongly_connected(G_directed):
-    scc_count = 1
-    scc_sizes = [len(G_directed.nodes())]
-else:
-    sccs = list(nx.strongly_connected_components(G_directed))
-    scc_count = len(sccs)
-    scc_sizes = [len(scc) for scc in sccs]
-
-st.markdown(f"### Strongly Connected Components: **{scc_count}**")
-st.write(f"Top 5 SCC sizes: {sorted(scc_sizes, reverse=True)[:5]}")
+st.markdown(f"### Strongly Connected Components: N/A")
 
 # Weakly Connected Components
-wccs = list(nx.weakly_connected_components(G_directed))
-wcc_count = len(wccs)
-wcc_sizes = [len(wcc) for wcc in wccs]
-
-st.markdown(f"### Weakly Connected Components: **{wcc_count}**")
-st.write(f"Top 5 WCC sizes: {sorted(wcc_sizes, reverse=True)[:5]}")
+st.markdown(f"### Weakly Connected Components: N/A")
 
 st.subheader("Node Centrality Analysis")
 

@@ -111,13 +111,13 @@ Show and explain the values of:
 
 Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
 
-    Eigenvector centrality                                                           // INCLUDE: X EXPLAIN: X
+    Eigenvector centrality                                                           // INCLUDE: V EXPLAIN: X
 
-    Degree centrality                                                                // INCLUDE: X EXPLAIN: X
+    Degree centrality                                                                // INCLUDE: V EXPLAIN: X
 
-    Closeness centrality                                                             // INCLUDE: X EXPLAIN: X
+    Closeness centrality                                                             // INCLUDE: V EXPLAIN: X
 
-    Betweenness centrality                                                           // INCLUDE: X EXPLAIN: X
+    Betweenness centrality                                                           // INCLUDE: V EXPLAIN: X
 
 Check this reference for data visualizations:
 https://datasciencedojo.com/blog/network-theory-game-of-thrones/
@@ -130,9 +130,10 @@ Implement the analysis in a visualization tool, exploring at least two of the fo
 
     Pyvis in a GitHub directory, e.g., http://terrematte.github.io/network_analysis/docs/
 
-    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud
 
-    Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:
+    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud    // INCLUDE: V
+
+    Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:                                                          // INCLUDE: V
         https://www.youtube.com/watch?v=ok4iFOe9niU
         https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
 
