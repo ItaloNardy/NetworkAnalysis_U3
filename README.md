@@ -7,3 +7,5 @@
 [Database source](https://github.com/melaniewalsh/sample-social-network-datasets/tree/master/sample-datasets/marvel)
 
 [Steamlit app](https://networkanalysisu3-9na9kkitvebebhnax3xihk.streamlit.app/)
+
+[Gephi](https://italonardy.github.io/NetworkAnalysis_U3_Gephi)
