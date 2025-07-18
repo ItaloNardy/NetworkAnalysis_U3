@@ -1,170 +1,66 @@
-Unidade 2 - Atividade prática com Streamlit
-
-Desenvolva uma aplicação interativa em Streamlit que analise e visualize redes complexas com base em um dataset fornecido ou escolhido pelo aluno.
-
-A aplicação deve utilizar a biblioteca Pyvis para visualização interativa da rede e apresentar análises estatísticas e estruturais dos dados.
-
-Você deverá criar uma aplicação em Streamlit e disponibilizá-la online (ex: via Streamlit Cloud), enviando o link da aplicação e o link do repositório GitHub com o código-fonte.
-
-Utilize os seguintes exemplos como modelo base:
-
-    Repositório de exemplo:https://github.com/napoles-uach/streamlit_network
-    Notebook com visualização Pyvis: https://github.com/napoles-uach/streamlit_network/blob/main/pyvis_sample.ipynb
-
-
-Requisitos:
-
-A aplicação deve conter as seguintes visualizações e análises:
-
-1. Visualização da Rede
-
-    Use a biblioteca Pyvis para gerar e exibir um grafo interativo com layout ajustável.
-    Permita selecionar diferentes subconjuntos do grafo (por ex: maiores componentes conectados, subgrafos com alto grau, etc.).
-
-
-2. Métricas Estruturais
-
-Exiba na aplicação os seguintes cálculos e explique brevemente seus significados:
-
-    Esparsidade / Densidade da rede
-    Assortatividade da rede
-    Coeficiente de clustering global
-    Componentes Fortemente Conectados (Strongly Connected Components)
-    ⚠️ Essa métrica se aplica apenas à grafos dirigidos
-    Componentes Fracamente Conectados (Weakly Connected Components)
-
-
-3. Distribuições de Grau
-
-    Gere e exiba um histograma da distribuição de grau dos nós (grau total ou separado por in-degree e out-degree, se for dirigido).
-
-4. Centralidade dos Nós
-
-Implemente e compare visualmente os nós mais importantes segundo as seguintes métricas:
-
-    Eigenvector centrality
-    Degree centrality
-    Closeness centrality
-    Betweenness centrality
-
-
-    A aplicação deve permitir visualizar rankings ou destacar os top-k nós por cada métrica.
-
-Entrega
-
-    ✅ Link para a aplicação hospedada (Streamlit Cloud ou similar)
-
-    ✅ Link para o repositório GitHub contendo:
-
-    Código-fonte (script .py ou notebook .ipynb)
-    Arquivo requirements.txt com as dependências do projeto
-    Breve README.md com instruções de uso
+Give a presentation of your pipeline to your classmates on the designated day.
+The presentation should include:
+    An explanation of the dataset
+    The goals of the analysis
+    Presentation of the visualizations used (nxviz, seaborn, matplotlib, Pyvis, SigmaJS)
+    Conclusions
 
 
 
-
-
-
-
-
-
-
-
-
-
-U3 - PROJECT:
-1 - [5 points]
-
-Using a dataset of your choice, develop an exploratory analysis workflow in a Colab Notebook and make it available on your GitHub. In particular:
     Explain what your dataset is.                                                                                           // INCLUDE: V EXPLAIN: V
     Explain what the nodes and edges are.                                                                                   // INCLUDE: V EXPLAIN: V
     Explain if it was necessary to filter nodes or generate a subgraph.                                                     // INCLUDE: V EXPLAIN: V
+"It was a connected dataset that had been reduced by 20x, from almost 6.5k nodes to 330 nodes, where each node is a marvel character and each link is them appearing on the same comic book. I used pyvis for the Interactive network visualization and Matplotlib for the Static plots for degree and centrality distributions, using Github, Colab, Streamlit, and Gephi for the deployment and presentation of the network, with the objective of exploring how marvel builds one of the biggest fictional universes in media and how their characters are connected to each other"
 
 
-"It was a connected dataset that had been reduced by 20x, from almost 6.5k nodes to 330 nodes, where each node is a marvel character and each link is them appearing on the same comic book"
 
-
-The analysis must include and explain, in the context of your dataset, the main network analysis concepts covered so far:
     Adjacency matrix                                                                                                        // INCLUDE: V EXPLAIN: V
-
-
 "The adjancency matrix is symmetric as the graph is undirected"
 
 
-    Diameter and periphery of the network (note: the graph must be connected; if it's not, generate a connected subgraph).  // INCLUDE: V EXPLAIN: V
+
+    Diameter and periphery of the network                                                                                   // INCLUDE: V EXPLAIN: V
+"Many periphery nodes and very small diameter as the graph is a Scale Free network as we'll see"
 
 
-"Very few periphery nodes and very small diameter as the graph is a Scale Free network as we'll see"
 
-
-Show and explain the values of:
     Sparsity/Density of the network                                                                                         // INCLUDE: V EXPLAIN: V
+"Highly sparse due to few main characters and many minor ones such as family, love interest, friends, minor villains and heroes"
 
-
-"Highly sparse due to few main characters and many minor ones such as family, love interest, friends, minor villains and heroes""
 
 
     General assortativity of the network                                                                                    // INCLUDE: V EXPLAIN: V
-Display visualizations of:
     Empirical degree distribution histogram                                                                                 // INCLUDE: V EXPLAIN: V
+"We can observe a clear PowerLaw distribution, with the presence of few high degree hubs with low degree nodes connected to them, showing it's similar tp a Scale Free Network."
 
 
-"We can observe a clear PowerLaw distribution, with the presence of big hubs with low degree nodes connected to them, showing it's a Scale Free Network."
 
-
-Show and explain the values of:
     Local clustering coefficient for selected nodes                                                                         // INCLUDE: V EXPLAIN: V
     Global clustering coefficient                                                                                           // INCLUDE: V EXPLAIN: V
+"That means Global clustering medium, while local clustering can be high for a few characters"
 
-
-"That means Global clustering is very low, while local clustering can be high for a few characters"
 
 
     Strongly Connected Components (note: the graph must be directed for this metric)                                        // INCLUDE: V EXPLAIN: V
     Weakly Connected Components                                                                                             // INCLUDE: V EXPLAIN: V
-
-
 "N/A because the graph is undirected"
 
 
-Implement a visualization to show the most important nodes, using and comparing the following centrality measures:
 
-    Eigenvector centrality                                                                                                  // INCLUDE: V EXPLAIN: X
-
-    Degree centrality                                                                                                       // INCLUDE: V EXPLAIN: X
-
+    Eigenvector centrality                                                                                                  // INCLUDE: V EXPLAIN: V
+"How many important people I know"
+    Degree centrality                                                                                                       // INCLUDE: V EXPLAIN: V
+"How many people I know"
     Closeness centrality                                                                                                    // INCLUDE: V EXPLAIN: X
-
+"How many interactions it takes to reach others"
     Betweenness centrality                                                                                                  // INCLUDE: V EXPLAIN: X
+"How many shortest paths go through me"
 
-Check this reference for data visualizations:
-https://datasciencedojo.com/blog/network-theory-game-of-thrones/
 
-Implement community/partition detection using the following package:
-https://python-louvain.readthedocs.io/en/latest/index.html
-3 - [2.5 points]
-
-Implement the analysis in a visualization tool, exploring at least two of the following:
 
     Pyvis in a GitHub directory, e.g., http://terrematte.github.io/network_analysis/docs/
 
 
-    Streamlit, deployed on Streamlit Community Cloud at https://streamlit.io/cloud                                           // INCLUDE: V
-
     Publish your network visualization using Gephi with SigmaJS Exporter on your GitHub. Include the generated metrics and community analysis from Gephi, using tutorials such as:                                                                                                 // INCLUDE: V
         https://www.youtube.com/watch?v=ok4iFOe9niU
         https://www.youtube.com/watch?v=E3opzJbL0Bw&list=PLxWhOYXODeqMYS7p_5J4gpWmGq5vAdepT&index=10
-
-4 - [2.5 points]
-
-Give a presentation of your pipeline to your classmates on the designated day.
-
-The presentation should include:
-
-    An explanation of the dataset
-
-    The goals of the analysis
-
-    Presentation of the visualizations used (nxviz, seaborn, matplotlib, Pyvis, SigmaJS)
-
-    Conclusions
