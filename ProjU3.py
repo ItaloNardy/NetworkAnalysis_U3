@@ -93,12 +93,7 @@ for node in G.nodes():
 # Add edges
 for _, row in df.iterrows():
     src, dst, w = row['Source'], row['Target'], row['Weight']
-    marvel_net.add_edge(
-        src, dst,
-        value=w,
-        title=f"Weight: {w}",
-        arrows=''
-    )
+    marvel_net.add_edge(src, dst, value=w)
 
 # Enable interactive features for highlighting
 marvel_net.set_options("""
@@ -265,6 +260,10 @@ ax.set_ylabel("Number of Nodes")
 st.pyplot(fig)
 
 st.subheader("Clustering and Connectivity Analysis")
+
+# Convert to directed graph for SCC/WCC
+G_directed = nx.DiGraph()
+G_directed.add_weighted_edges_from([(row['Source'], row['Target'], row['Weight']) for _, row in df.iterrows()])
 
 # Global clustering coefficient (transitivity)
 global_clustering = nx.transitivity(G)
