@@ -77,7 +77,7 @@ U3 - PROJECT:
 
 Using a dataset of your choice, develop an exploratory analysis workflow in a Colab Notebook and make it available on your GitHub. In particular:
 
-    Explain what your dataset is.                                                    // INCLUDE: V EXPLAIN: X
+    Explain what your dataset is.                                                    // INCLUDE: V EXPLAIN: V
 
     Explain what the nodes and edges are.                                            // INCLUDE: V EXPLAIN: X
 
