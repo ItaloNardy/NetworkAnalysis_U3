@@ -392,8 +392,8 @@ def simulate_attack(graph, strategy="random", remove_fraction=1):
     return x_vals, y_vals
 
 # Simulate both attacks
-x_rand, y_rand = simulate_attack(G_connected, strategy="random", remove_fraction=0.3)
-x_target, y_target = simulate_attack(G_connected, strategy="targeted", remove_fraction=0.3)
+x_rand, y_rand = simulate_attack(G_connected, strategy="random", remove_fraction=1)
+x_target, y_target = simulate_attack(G_connected, strategy="targeted", remove_fraction=1)
 
 # Plot
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -408,7 +408,7 @@ st.pyplot(fig)
 # EDGE REMOVAL BY OVERLAP (LOW TO HIGH AND HIGH TO LOW)
 st.markdown("## Network Robustness: Edge Removal by Overlap (Low to High vs High to Low)")
 
-def edge_overlap_removal(graph, remove_fraction=0.3, ascending=True):
+def edge_overlap_removal(graph, remove_fraction=1, ascending=True):
     """
     Removes edges by overlap score, either from low to high (ascending=True)
     or from high to low (ascending=False), tracking largest connected component size.
@@ -450,8 +450,8 @@ def edge_overlap_removal(graph, remove_fraction=0.3, ascending=True):
     return x_vals, y_vals
 
 # Run both simulations
-x_low, y_low = edge_overlap_removal(G_connected, remove_fraction=0.9, ascending=True)
-x_high, y_high = edge_overlap_removal(G_connected, remove_fraction=0.9, ascending=False)
+x_low, y_low = edge_overlap_removal(G_connected, remove_fraction=1, ascending=True)
+x_high, y_high = edge_overlap_removal(G_connected, remove_fraction=1, ascending=False)
 
 # Plot both on same figure
 fig, ax = plt.subplots(figsize=(8, 5))
