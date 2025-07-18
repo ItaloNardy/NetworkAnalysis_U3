@@ -405,12 +405,13 @@ ax.set_title("Impact of Random vs Targeted Attacks on Network Robustness")
 ax.legend()
 st.pyplot(fig)
 
-# EDGE REMOVAL BY OVERLAP
-st.markdown("## Network Robustness: Edge Removal by Overlap (Low to High)")
+# EDGE REMOVAL BY OVERLAP (LOW TO HIGH AND HIGH TO LOW)
+st.markdown("## Network Robustness: Edge Removal by Overlap (Low to High vs High to Low)")
 
-def edge_overlap_removal(graph, remove_fraction=0.3):
+def edge_overlap_removal(graph, remove_fraction=0.3, ascending=True):
     """
-    Removes edges with lowest overlap first and tracks LCC size.
+    Removes edges by overlap score, either from low to high (ascending=True)
+    or from high to low (ascending=False), tracking largest connected component size.
     """
     G = graph.copy()
     N = len(G.nodes())
@@ -425,20 +426,20 @@ def edge_overlap_removal(graph, remove_fraction=0.3):
         neighbors_v = set(G.neighbors(v))
         common = neighbors_u & neighbors_v
         union = neighbors_u | neighbors_v
-        if union:
-            overlap = len(common) / len(union)
-        else:
-            overlap = 0
-        overlap_scores[(u, v)] = overlap
+        overlap = len(common) / len(union) if union else 0
+        # Sort edge tuple so keys are consistent (undirected graph)
+        edge = (u, v) if u < v else (v, u)
+        overlap_scores[edge] = overlap
 
-    # Sort edges by overlap (low to high)
-    sorted_edges = sorted(overlap_scores.items(), key=lambda x: x[1])
+    # Sort edges by overlap ascending or descending
+    sorted_edges = sorted(overlap_scores.items(), key=lambda x: x[1], reverse=not ascending)
 
     for i in range(num_remove):
         if i >= len(sorted_edges):
             break
         edge = sorted_edges[i][0]
-        G.remove_edge(*edge)
+        if G.has_edge(*edge):
+            G.remove_edge(*edge)
         if nx.is_connected(G):
             lcc = len(G.nodes())
         else:
@@ -448,14 +449,16 @@ def edge_overlap_removal(graph, remove_fraction=0.3):
 
     return x_vals, y_vals
 
-# Run simulation
-x_olap, y_olap = edge_overlap_removal(G_connected, remove_fraction=0.3)
+# Run both simulations
+x_low, y_low = edge_overlap_removal(G_connected, remove_fraction=0.3, ascending=True)
+x_high, y_high = edge_overlap_removal(G_connected, remove_fraction=0.3, ascending=False)
 
-# Plot
+# Plot both on same figure
 fig, ax = plt.subplots(figsize=(8, 5))
-ax.plot(x_olap, y_olap, color="purple", linestyle="-.", marker='s', markersize=4, label="Low-Overlap Edge Removal")
+ax.plot(x_low, y_low, color="purple", linestyle="-.", marker='s', markersize=4, label="Low-Overlap Removal (Low to High)")
+ax.plot(x_high, y_high, color="green", linestyle="--", marker='D', markersize=4, label="High-Overlap Removal (High to Low)")
 ax.set_xlabel("Fraction of Edges Removed")
 ax.set_ylabel("Size of Largest Connected Component (Fraction)")
-ax.set_title("Impact of Edge Removal by Overlap (Low to High)")
+ax.set_title("Impact of Edge Removal by Overlap (Low to High vs High to Low)")
 ax.legend()
 st.pyplot(fig)
