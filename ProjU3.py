@@ -7,6 +7,7 @@ import tempfile
 import os
 import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
+import random
 
 # Try to import Louvain community detection
 try:
@@ -355,3 +356,50 @@ ax.set_xlim(-1, len(bar_labels))
 ax.legend(handles=[plt.Rectangle((0,0),1,1,color=c,label=l) for l,c in color_map.items()])
 st.pyplot(fig)
 
+st.markdown("## Network Robustness: Random vs Targeted Attack")
+
+def simulate_attack(graph, strategy="random", remove_fraction=0.3):
+    """
+    Simulates attack by progressively removing nodes.
+    :param graph: NetworkX graph
+    :param strategy: 'random' or 'targeted'
+    :param remove_fraction: % of nodes to remove
+    :return: x (% removed), y (largest connected component size)
+    """
+    G = graph.copy()
+    N = len(G.nodes())
+    num_remove = int(remove_fraction * N)
+    x_vals, y_vals = [], []
+
+    if strategy == "random":
+        node_order = random.sample(list(G.nodes()), num_remove)
+    elif strategy == "targeted":
+        node_order = sorted(G.degree, key=lambda x: x[1], reverse=True)
+        node_order = [n for n, _ in node_order[:num_remove]]
+    else:
+        raise ValueError("Invalid strategy")
+
+    for i in range(num_remove):
+        G.remove_node(node_order[i])
+        if len(G) == 0:
+            lcc = 0
+        else:
+            lcc = len(max(nx.connected_components(G), key=len))
+        x_vals.append((i + 1) / N)
+        y_vals.append(lcc / N)
+
+    return x_vals, y_vals
+
+# Simulate both attacks
+x_rand, y_rand = simulate_attack(G_connected, strategy="random", remove_fraction=0.3)
+x_target, y_target = simulate_attack(G_connected, strategy="targeted", remove_fraction=0.3)
+
+# Plot
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(x_rand, y_rand, label="Random Attack", color="blue", linestyle="--", marker='o', markersize=4)
+ax.plot(x_target, y_target, label="Targeted Attack", color="red", linestyle="-", marker='x', markersize=4)
+ax.set_xlabel("Fraction of Nodes Removed")
+ax.set_ylabel("Size of Largest Connected Component (Fraction)")
+ax.set_title("Impact of Random vs Targeted Attacks on Network Robustness")
+ax.legend()
+st.pyplot(fig)
